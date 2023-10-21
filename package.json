@@ -1,0 +1,18 @@
+{
+  "name": "obsidian-templater-use",
+  "module": "index.ts",
+  "scripts": {
+    "build": "mkdir -p dist && bun esbuild . | sed 's/export default/module.exports =/g' > dist/index.js",
+    "build:type": "npx tsc --declaration --noEmit false --emitDeclarationOnly --outDir dist --tsBuildInfoFile .tsbuildinfo",
+    "build:all": "bun run build && bun run build:type"
+  },
+  "devDependencies": {
+    "bun-types": "latest",
+    "esbuild": "^0.19.5",
+    "obsidian": "^1.4.11"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "type": "module"
+}
