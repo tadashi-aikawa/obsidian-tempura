@@ -4,7 +4,8 @@
   "scripts": {
     "build": "mkdir -p dist && bun esbuild . | sed 's/export default/module.exports =/g' > dist/index.js",
     "build:type": "npx tsc --declaration --noEmit false --emitDeclarationOnly --outDir dist --tsBuildInfoFile .tsbuildinfo",
-    "build:all": "bun run build && bun run build:type"
+    "build:all": "bun run build && bun run build:type",
+    "release": "git tag ${VERSION} && git push origin ${VERSION}"
   },
   "devDependencies": {
     "bun-types": "latest",

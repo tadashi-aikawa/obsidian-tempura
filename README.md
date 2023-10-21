@@ -8,13 +8,13 @@
 
 ### Provisioning
 
-```bash
+```console
 bun install
 ```
 
 ### Build
 
-```bash
+```console
 bun build:all
 ```
 
@@ -22,6 +22,12 @@ bun build:all
 
 - `dist/index.js`
 - `dist/index.d.ts` (Optional)
+
+### Release
+
+```console
+VERSION=20231021.1 bun release
+```
 
 [Bun]: https://bun.sh/
 
