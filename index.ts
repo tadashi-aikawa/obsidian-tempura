@@ -19,8 +19,8 @@ const getActiveEditor = (): Editor | null =>
   app.workspace.activeEditor?.editor ?? null;
 
 /**
-/* textをカーソル位置に挿入する
-*/
+ * Insert text at the cursor position
+ */
 async function insert(text: string): Promise<void> {
   const editor = getActiveEditor();
   if (!editor) {
@@ -30,20 +30,6 @@ async function insert(text: string): Promise<void> {
   editor.replaceRange(text, editor.getCursor());
 }
 
-/**
-/* textをカーソル位置に2回挿入する
-*/
-async function insert2(text: string): Promise<void> {
-  const editor = getActiveEditor();
-  if (!editor) {
-    return;
-  }
-
-  editor.replaceRange(text, editor.getCursor());
-  editor.replaceRange(text, editor.getCursor());
-}
-
 export default () => ({
   insert,
-  insert2,
 });
