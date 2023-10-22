@@ -1,5 +1,7 @@
 # Obsidian Tempura
 
+![400x400](https://github.com/tadashi-aikawa/obsidian-tempura/blob/main/logo.png?raw=true)
+
 ## Required
 
 - [Obsidian]
