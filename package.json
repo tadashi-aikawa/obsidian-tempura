@@ -1,5 +1,5 @@
 {
-  "name": "obsidian-templater-use",
+  "name": "obsidian-tempura",
   "module": "src/index.ts",
   "scripts": {
     "build": "mkdir -p dist && bun esbuild.config.mjs",

@@ -5,5 +5,5 @@ await esbuild.build({
   platform: "neutral",
   format: "cjs",
   bundle: true,
-  outfile: "dist/useObsidian.js",
+  outfile: "dist/fryTempura.js",
 });
