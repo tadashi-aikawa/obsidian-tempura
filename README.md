@@ -45,7 +45,6 @@ bun build
 #### Artifacts
 
 - `dist/index.js`
-- `dist/index.d.ts` (Optional)
 
 ### Build docs
 
