@@ -2,6 +2,9 @@
 
 <img src="https://github.com/tadashi-aikawa/obsidian-tempura/blob/main/logo.png?raw=true" width="400" />
 
+> **Note**
+> The logo above was created by DALL-E3
+
 ## Required
 
 - [Obsidian]
