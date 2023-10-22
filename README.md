@@ -10,10 +10,15 @@
 1. Download `useObsidian.js` from the [release page]
 2. Place `useObsidian.js` under the path set by "[Script files folder location]"
 
-
 ## Usages
 
+```js
+<%*
+const { insert } = tp.user.useObsidian()
 
+insert("🦉Mimizou")
+%>
+```
 
 ## API Documantation
 
