@@ -2,9 +2,7 @@
   "name": "obsidian-templater-use",
   "module": "index.ts",
   "scripts": {
-    "build": "mkdir -p dist && bun esbuild . | sed 's/export default/module.exports =/g' > dist/index.js",
-    "build:type": "npx tsc --declaration --noEmit false --emitDeclarationOnly --outDir dist --tsBuildInfoFile .tsbuildinfo",
-    "build:all": "bun run build && bun run build:type",
+    "build": "mkdir -p dist && esbuild --bundle index.ts --platform=neutral --format=cjs > dist/index.js",
     "release": "git tag ${VERSION} && git push origin ${VERSION}"
   },
   "devDependencies": {
@@ -15,5 +13,5 @@
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
-  "type": "module"
+  "type": "commonjs"
 }

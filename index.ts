@@ -1,22 +1,4 @@
-import { App, Editor, Vault } from "obsidian";
-
-type UVault = Vault & {
-  config: {
-    spellcheckDictionary?: string[];
-    useMarkdownLinks?: false;
-    newLinkFormat?: "shortest" | "relative" | "absolute";
-  };
-};
-
-type UApp = App & {
-  isMobile: boolean;
-  vault: UVault;
-};
-
-declare let app: UApp;
-
-const getActiveEditor = (): Editor | null =>
-  app.workspace.activeEditor?.editor ?? null;
+import { getActiveEditor } from "./helper";
 
 /**
  * Insert text at the cursor position
@@ -30,6 +12,6 @@ async function insert(text: string): Promise<void> {
   editor.replaceRange(text, editor.getCursor());
 }
 
-export default () => ({
+module.exports = () => ({
   insert,
 });
