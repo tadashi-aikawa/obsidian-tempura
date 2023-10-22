@@ -3,7 +3,7 @@ import { getActiveEditor } from "./helper";
 /**
  * Insert text at the cursor position
  */
-async function insert(text: string): Promise<void> {
+export async function insert(text: string): Promise<void> {
   const editor = getActiveEditor();
   if (!editor) {
     return;
