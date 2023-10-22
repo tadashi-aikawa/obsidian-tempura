@@ -1,5 +1,24 @@
 # obsidian-templater-use
 
+## Required
+
+- [Obsidian]
+- [Templater]
+
+## Installation
+
+1. Download `useObsidian.js` from the [release page]
+2. Place `useObsidian.js` under the path set by "[Script files folder location]"
+
+
+## Usages
+
+
+
+## API Documantation
+
+https://tadashi-aikawa.github.io/obsidian-templater-use/
+
 ## For developers
 
 ### Required
@@ -39,5 +58,10 @@ bun build:docs
 VERSION=20231021.1 bun release
 ```
 
+[Obsidian]: https://obsidian.md/
+[Templater]: https://github.com/SilentVoid13/Templater
 [Bun]: https://bun.sh/
+
+[release page]: https://github.com/tadashi-aikawa/obsidian-templater-use/releases
+[Script files folder location]: https://silentvoid13.github.io/Templater/user-functions/script-user-functions.html?highlight=user%20scipts%20function#define-a-script-user-function
 
