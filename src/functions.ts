@@ -1,6 +1,7 @@
 import { ExhaustiveError } from "./errors";
 import * as helper from "./helper";
 import { UEditor } from "./types";
+import { orderBy } from "./utils/collections";
 import { parseMarkdownList } from "./utils/parser";
 
 /**
@@ -32,6 +33,20 @@ export function getActiveLine(): string | null {
 }
 
 /**
+ * Get selection lines
+ */
+export function getSelectionLines(): string[] | null {
+  return helper.getActiveEditor()?.getSelection()?.split("\n") ?? null;
+}
+
+/**
+ * Set text to selection
+ */
+export function setTextToSelection(text: string): void {
+  helper.getActiveEditor()?.replaceSelection(text);
+}
+
+/**
  * Attach text to the specified list item as a prefix or a suffix
  */
 export function attachTextToListItem(
@@ -55,4 +70,24 @@ export function attachTextToListItem(
   }
 
   helper.replaceStringInActiveLine(after, { cursor: option?.cursor });
+}
+
+/**
+ * Sort selection lines
+ */
+export function sortSelectionLines(option?: {
+  order?: "asc" | "desc";
+  predicate?: (x: any) => string | number;
+}) {
+  const order = option?.order ?? "asc";
+  const predicate = option?.predicate ?? ((x) => x);
+
+  const lines = getSelectionLines();
+  if (!lines) {
+    return;
+  }
+
+  const sortedLines = orderBy(lines, predicate, order);
+
+  setTextToSelection(sortedLines.join("\n"));
 }

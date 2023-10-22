@@ -2,6 +2,7 @@
   "name": "obsidian-tempura",
   "module": "src/index.ts",
   "scripts": {
+    "dev": "bun test --watch",
     "build": "mkdir -p dist && bun esbuild.config.mjs",
     "build:docs": "typedoc src/functions.ts",
     "release": "git tag ${VERSION} && git push origin ${VERSION}"
