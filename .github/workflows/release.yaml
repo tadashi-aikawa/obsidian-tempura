@@ -36,7 +36,6 @@ jobs:
         with:
           draft: true
           files: |
-            dist/index.js
-            dist/index.d.ts
+            dist/useObsidian.js
       - uses: actions/deploy-pages@v2
         id: deployment
