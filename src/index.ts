@@ -1,5 +1,8 @@
-import { insert } from "./functions";
+import { insert, getActiveLine, attachTextToListItem, use } from "./functions";
 
 module.exports = () => ({
+  use,
   insert,
+  getActiveLine,
+  attachTextToListItem,
 });

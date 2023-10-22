@@ -1,8 +1,8 @@
 {
   "name": "obsidian-templater-use",
-  "module": "index.ts",
+  "module": "src/index.ts",
   "scripts": {
-    "build": "mkdir -p dist && esbuild --bundle src/index.ts --platform=neutral --format=cjs > dist/useObsidian.js",
+    "build": "mkdir -p dist && bun esbuild.config.mjs",
     "build:docs": "typedoc src/functions.ts",
     "release": "git tag ${VERSION} && git push origin ${VERSION}"
   },
