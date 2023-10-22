@@ -15,13 +15,23 @@ bun install
 ### Build
 
 ```console
-bun build:all
+bun build
 ```
 
 #### Artifacts
 
 - `dist/index.js`
 - `dist/index.d.ts` (Optional)
+
+### Build docs
+
+```console
+bun build:docs
+```
+
+#### Artifacts
+
+- `docs`
 
 ### Release
 
