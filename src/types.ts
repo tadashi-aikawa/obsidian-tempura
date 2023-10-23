@@ -7,6 +7,18 @@ import {
   FileView,
 } from "obsidian";
 
+type Properties = {
+  tags?: string | string[] | undefined;
+  aliases?: string | string[] | undefined;
+  [key: string]: any | any[] | undefined;
+};
+
+export type UMetadataEditor = {
+  addProperty(): void;
+  focusValue(key: string): void;
+  insertProperties(props: Properties): void;
+};
+
 export type UEditor = Editor;
 export type UFileView = FileView;
 export type UMarkdownView = MarkdownView;

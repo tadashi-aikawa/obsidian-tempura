@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test";
-import { parseMarkdownList } from "./parser";
+import { parseMarkdownList, parseTags } from "./parser";
 
 test.each([
   ["", { prefix: "", content: "" }],
@@ -37,5 +37,21 @@ test.each([
   `parseMarkdownList("%s")`,
   (text: string, expected: ReturnType<typeof parseMarkdownList>) => {
     expect(parseMarkdownList(text)).toEqual(expected);
+  }
+);
+
+test.each([
+  ["#hoge", ["hoge"]],
+  [" #hoge", ["hoge"]],
+  ["#hoge ", ["hoge"]],
+  [" #hoge ", ["hoge"]],
+  ["  #hoge  ", ["hoge"]],
+  ["#hoge #hoga", ["hoge", "hoga"]],
+  ["hoge #hoga fuga", ["hoga"]],
+  ["#hoge hoga #fuga", ["hoge", "fuga"]],
+])(
+  `parseTags("%s")`,
+  (text: string, expected: ReturnType<typeof parseTags>) => {
+    expect(parseTags(text)).toEqual(expected);
   }
 );

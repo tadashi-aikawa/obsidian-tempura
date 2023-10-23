@@ -11,3 +11,10 @@ export function parseMarkdownList(text: string): {
     content: result?.groups?.content ?? "",
   };
 }
+
+export function parseTags(text: string): string[] {
+  return text
+    .split(" ")
+    .filter((x) => x.startsWith("#"))
+    .map((x) => x.slice(1));
+}
