@@ -33,6 +33,14 @@ export function addProperty(key: string, values: any[]): void {
 }
 
 /**
+ * Update a property to the frontmatter
+ */
+export function updateProperty(key: string, values: any[]): void {
+  removeProperty(key);
+  addProperty(key, values);
+}
+
+/**
  * Remove a property from the frontmatter
  */
 export function removeProperty(key: string): void {
@@ -42,14 +50,6 @@ export function removeProperty(key: string): void {
   }
 
   editor.insertProperties({ [key]: null });
-}
-
-/**
- * Update a property to the frontmatter
- */
-export function updateProperty(key: string, values: any[]): void {
-  removeProperty(key);
-  addProperty(key, values);
 }
 
 /**
