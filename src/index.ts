@@ -14,6 +14,8 @@ import {
   readTagsFromProperty,
   readAliasesFromProperty,
   deleteActiveLine,
+  stripDecorationFromSelection,
+  stripLinksFromSelection,
 } from "./functions";
 
 module.exports = () => ({
@@ -32,4 +34,6 @@ module.exports = () => ({
   readTagsFromProperty,
   readAliasesFromProperty,
   deleteActiveLine,
+  stripDecorationFromSelection,
+  stripLinksFromSelection,
 });

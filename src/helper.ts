@@ -31,6 +31,24 @@ export function getActiveLine(): string | null {
   return editor.getLine(editor.getCursor().line);
 }
 
+export function getSelection(): string | null {
+  const editor = getActiveEditor();
+  if (!editor) {
+    return null;
+  }
+
+  return editor.getSelection();
+}
+
+export function setSelection(text: string): void {
+  const editor = getActiveEditor();
+  if (!editor) {
+    return;
+  }
+
+  editor.replaceSelection(text);
+}
+
 export function deleteActiveLine(): void {
   const editor = getActiveEditor();
   if (!editor) {

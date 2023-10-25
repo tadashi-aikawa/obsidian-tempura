@@ -3,7 +3,12 @@ import { ExhaustiveError } from "./errors";
 import * as helper from "./helper";
 import { UEditor, UMetadataEditor } from "./types";
 import { orderBy } from "./utils/collections";
-import { parseMarkdownList, parseTags } from "./utils/parser";
+import {
+  parseMarkdownList,
+  parseTags,
+  stripDecoration,
+  stripLinks,
+} from "./utils/parser";
 
 /**
  * Use instances with a shorter syntax
@@ -170,4 +175,34 @@ export function sortSelectionLines(option?: {
   const sortedLines = orderBy(lines, predicate, order);
 
   setTextToSelection(sortedLines.join("\n"));
+}
+
+/**
+ * Strip decoration from selection
+ *
+ * ex: "**hoge** _hoga_ ==hogu==" -> "hoge hoga hogu"
+ */
+export function stripDecorationFromSelection(): void {
+  const selection = helper.getSelection();
+  if (!selection) {
+    return;
+  }
+
+  const striped = stripDecoration(selection);
+  helper.setSelection(striped);
+}
+
+/**
+ * Strip decoration from selection
+ *
+ * ex: "[hoge] [huga](xxx) [[fuga]]" -> "hoge huga fuga"
+ */
+export function stripLinksFromSelection(): void {
+  const selection = helper.getSelection();
+  if (!selection) {
+    return;
+  }
+
+  const striped = stripLinks(selection);
+  helper.setSelection(striped);
 }
