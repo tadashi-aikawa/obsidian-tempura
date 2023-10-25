@@ -11,6 +11,9 @@ import {
   removeProperty,
   addProperty,
   getActiveLineTags,
+  readTagsFromProperty,
+  readAliasesFromProperty,
+  deleteActiveLine,
 } from "./functions";
 
 module.exports = () => ({
@@ -26,4 +29,7 @@ module.exports = () => ({
   setTextToSelection,
   attachTextToListItem,
   sortSelectionLines,
+  readTagsFromProperty,
+  readAliasesFromProperty,
+  deleteActiveLine,
 });

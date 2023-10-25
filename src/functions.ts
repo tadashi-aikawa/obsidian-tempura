@@ -53,6 +53,13 @@ export function removeProperty(key: string): void {
 }
 
 /**
+ * Read tags from a "tags" property
+ */
+export function readTagsFromProperty(): string[] {
+  return helper.getActiveFileFrontmatter()?.tags ?? [];
+}
+
+/**
  * Focus on the frontmatter value element
  */
 export function focusPropertyValue(key: string): void {
@@ -62,6 +69,13 @@ export function focusPropertyValue(key: string): void {
   }
 
   editor.focusValue(key);
+}
+
+/**
+ * Read aliases from a "aliases" property
+ */
+export function readAliasesFromProperty(): string[] {
+  return helper.getActiveFileFrontmatter()?.aliases ?? [];
 }
 
 /**
@@ -81,6 +95,13 @@ export async function insert(text: string): Promise<void> {
  */
 export function getActiveLine(): string | null {
   return helper.getActiveLine();
+}
+
+/**
+ * Delete active line
+ */
+export function deleteActiveLine(): void {
+  return helper.deleteActiveLine();
 }
 
 /**

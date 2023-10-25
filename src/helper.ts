@@ -31,6 +31,27 @@ export function getActiveLine(): string | null {
   return editor.getLine(editor.getCursor().line);
 }
 
+export function deleteActiveLine(): void {
+  const editor = getActiveEditor();
+  if (!editor) {
+    return;
+  }
+
+  const cur = editor.getCursor();
+  if (cur.line === editor.lastLine()) {
+    editor.setLine(cur.line, "");
+  } else {
+    editor.replaceRange(
+      "",
+      { line: cur.line, ch: 0 },
+      {
+        line: cur.line + 1,
+        ch: 0,
+      }
+    );
+  }
+}
+
 export function replaceStringInActiveLine(
   str: string,
   option?: { cursor?: "last" }
