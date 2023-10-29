@@ -19,6 +19,16 @@
 
 ```js
 <%*
+const T = tp.user.fryTempura()
+
+T.insert("🦉Mimizou")
+%>
+```
+
+OR
+
+```js
+<%*
 const { insert } = tp.user.fryTempura()
 
 insert("🦉Mimizou")
