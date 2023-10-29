@@ -1,7 +1,21 @@
 import { CachedMetadata, FrontMatterCache, TFile } from "obsidian";
-import { UApp, UEditor, UMetadataEditor } from "./types";
+import {
+  Moment,
+  MomentInput,
+  UApp,
+  UEditor,
+  ULinkCache,
+  UMetadataEditor,
+} from "./types";
 
 declare let app: UApp;
+
+declare function moment(inp?: MomentInput, strict?: boolean): Moment;
+
+declare class Notice {
+  // If duration is undefined, it is treated as 5000.
+  constructor(message: string | DocumentFragment, duration?: number | null);
+}
 
 export const getActiveFile = (): TFile | null => app.workspace.getActiveFile();
 
@@ -29,6 +43,17 @@ export function getActiveLine(): string | null {
   }
 
   return editor.getLine(editor.getCursor().line);
+}
+
+export function getBacklinksByFilePathInActiveFile(): {
+  [path: string]: ULinkCache[];
+} | null {
+  const f = getActiveFile();
+  if (!f) {
+    return null;
+  }
+
+  return app.metadataCache.getBacklinksForFile(f).data;
 }
 
 export function getSelection(): string | null {
@@ -87,4 +112,12 @@ export function replaceStringInActiveLine(
     option?.cursor === "last" ? str.length : Math.min(ch, str.length - 1);
 
   editor.setCursor({ line, ch: afterCh });
+}
+
+export function notify(text: string | DocumentFragment, timeoutMs?: number) {
+  new Notice(text, timeoutMs ?? null);
+}
+
+export function createMoment(input?: MomentInput): Moment {
+  return moment(input);
 }

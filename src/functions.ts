@@ -1,7 +1,7 @@
 import { FrontMatterCache } from "obsidian";
 import { ExhaustiveError } from "./errors";
 import * as helper from "./helper";
-import { UEditor, UMetadataEditor } from "./types";
+import { Moment, UEditor, UMetadataEditor } from "./types";
 import { orderBy } from "./utils/collections";
 import {
   parseMarkdownList,
@@ -28,21 +28,35 @@ export function use(): {
 /**
  * Add a property to the frontmatter
  */
-export function addProperty(key: string, values: any[]): void {
+export function addProperty(key: string, value: any | any[]): void {
   const editor = helper.getActiveMetadataEditor();
   if (!editor) {
     return;
   }
 
-  editor.insertProperties({ [key]: values });
+  editor.insertProperties({ [key]: value });
+}
+
+/**
+ * Add properties to the frontmatter
+ */
+export function addProperties(properties: {
+  [key: string]: any | any[];
+}): void {
+  const editor = helper.getActiveMetadataEditor();
+  if (!editor) {
+    return;
+  }
+
+  editor.insertProperties(properties);
 }
 
 /**
  * Update a property to the frontmatter
  */
-export function updateProperty(key: string, values: any[]): void {
+export function updateProperty(key: string, value: any | any[]): void {
   removeProperty(key);
-  addProperty(key, values);
+  addProperty(key, value);
 }
 
 /**
@@ -205,4 +219,84 @@ export function stripLinksFromSelection(): void {
 
   const striped = stripLinks(selection);
   helper.setSelection(striped);
+}
+
+/**
+ * Notify a message
+ * @param never: default is 5000ms
+ */
+export function notify(
+  text: string | DocumentFragment,
+  timeoutMs: number | "never" = 5000
+) {
+  helper.notify(text, timeoutMs === "never" ? undefined : timeoutMs);
+}
+
+/**
+ * Get paths of the backlinks from an active file
+ * @param never: default is 5000ms
+ */
+export function getBacklinkPaths(): string[] {
+  return Object.keys(helper.getBacklinksByFilePathInActiveFile() ?? {});
+}
+
+/**
+ * Get the file creation date
+ */
+export function getCreationDate(
+  format: string | "unixtime" | "moment"
+): string | number | Moment | null {
+  const f = helper.getActiveFile();
+  if (!f) {
+    return null;
+  }
+
+  const time = f.stat.ctime;
+  switch (format) {
+    case "unixtime":
+      return time;
+    case "moment":
+      return helper.createMoment(time);
+    default:
+      return helper.createMoment(time).format(format);
+  }
+}
+
+/**
+ * Get the file update date
+ */
+export function getUpdateDate(
+  format: string | "unixtime" | "moment"
+): string | number | Moment | null {
+  const f = helper.getActiveFile();
+  if (!f) {
+    return null;
+  }
+
+  const time = f.stat.mtime;
+  switch (format) {
+    case "unixtime":
+      return time;
+    case "moment":
+      return helper.createMoment(time);
+    default:
+      return helper.createMoment(time).format(format);
+  }
+}
+
+/**
+ * Get now
+ */
+export function now(
+  format: string | "unixtime" | "moment"
+): string | number | Moment | null {
+  const nowMoment = helper.createMoment();
+  switch (format) {
+    case "unixtime":
+      return nowMoment.unix();
+    case "moment":
+      return nowMoment;
+    default:
+      return nowMoment.format(format);
+  }
 }

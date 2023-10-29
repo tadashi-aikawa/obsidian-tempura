@@ -5,13 +5,27 @@ import {
   Vault,
   Workspace,
   FileView,
+  TFile,
+  LinkCache,
+  ReferenceCache,
+  CacheItem,
 } from "obsidian";
 
 type Properties = {
-  tags?: string | string[] | undefined;
-  aliases?: string | string[] | undefined;
-  [key: string]: any | any[] | undefined;
+  tags?: string | string[] | undefined | null;
+  aliases?: string | string[] | undefined | null;
+  [key: string]: any | any[] | undefined | null;
 };
+
+export type Moment = moment.Moment;
+export type MomentInput = moment.MomentInput;
+
+// From Obsidian 1.4.x
+export interface FrontMatterLinkCache
+  extends Omit<ReferenceCache, keyof CacheItem> {
+  key: string;
+}
+export type ULinkCache = LinkCache | FrontMatterLinkCache;
 
 export type UMetadataEditor = {
   addProperty(): void;
@@ -37,4 +51,7 @@ export type UApp = App & {
   workspace: UWorkspace;
   isMobile: boolean;
   vault: UVault;
+  metadataCache: {
+    getBacklinksForFile(file: TFile): { data: Record<string, ULinkCache[]> };
+  };
 };
