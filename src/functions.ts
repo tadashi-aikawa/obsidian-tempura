@@ -15,12 +15,12 @@ import {
  */
 export function use(): {
   editor: UEditor | null;
-  frontmatter: FrontMatterCache | null;
+  properties: FrontMatterCache | null;
   metadataEditor: UMetadataEditor | null;
 } {
   return {
     editor: helper.getActiveEditor(),
-    frontmatter: helper.getActiveFileFrontmatter(),
+    properties: helper.getActiveFileFrontmatter(),
     metadataEditor: helper.getActiveMetadataEditor(),
   };
 }
