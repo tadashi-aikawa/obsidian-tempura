@@ -86,7 +86,7 @@ https://tadashi-aikawa.github.io/obsidian-tempura/
 
 ### Required
 
-- [Bun] (v1.0.7 >=)
+- [Bun] (v1.0.8 >=)
 
 ### Provisioning
 
