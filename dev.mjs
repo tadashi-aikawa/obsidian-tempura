@@ -1,4 +1,5 @@
 import * as fs from "fs";
+import { join } from "path";
 
 function build(target, dist) {
   const ts = fs.readFileSync(target, { encoding: "utf8" });
@@ -9,7 +10,7 @@ function build(target, dist) {
     )
     .join("\n");
   fs.mkdirSync(dist, { recursive: true });
-  const dst = `${dist}/${target.replace(/^src\//, "").replace(/.ts$/, ".md")}`;
+  const dst = `${dist}/${target.replace(/^src/, "/").replace(/.ts$/, ".md")}`;
   fs.writeFileSync(dst, transformed);
   console.log(`[success build] ${dst}`);
 }
@@ -26,7 +27,7 @@ function main(path) {
       return;
     }
 
-    (path ? [path] : fs.readdirSync("src").map((x) => `src/${x}`)).forEach(
+    (path ? [path] : fs.readdirSync("src").map((x) => join("src", x))).forEach(
       (x) => build(x, config.templater.templateFolderLocation)
     );
   } catch (e) {
