@@ -1,17 +1,18 @@
-name: "Release"
+name: "Doc"
 
 on:
   push:
-    tags:
-      - "*"
+    paths:
+      - ".github/**/*"
+      - "src/*"
+      - "src/**/*"
 
 jobs:
-  release:
+  doc:
     runs-on: ubuntu-latest
     permissions:
       contents: write
       pages: write
-      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -29,13 +30,3 @@ jobs:
         with:
           path: 'docs'
 
-      - uses: softprops/action-gh-release@v1
-        id: create_release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          draft: true
-          files: |
-            dist/fryTempura.js
-      - uses: actions/deploy-pages@v2
-        id: deployment

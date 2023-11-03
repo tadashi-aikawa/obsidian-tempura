@@ -114,11 +114,6 @@ bun build:docs
 
 - `docs`
 
-### Release
-
-```console
-VERSION=20231021.1 bun release
-```
 
 [Obsidian]: https://obsidian.md/
 [Templater]: https://github.com/SilentVoid13/Templater
