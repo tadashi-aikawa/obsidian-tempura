@@ -1,5 +1,10 @@
 import * as fs from "fs";
-import { join } from "path";
+import { join, resolve } from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 function build(target, dist) {
   const ts = fs.readFileSync(target, { encoding: "utf8" });
@@ -26,6 +31,18 @@ function main(path) {
       );
       return;
     }
+    if (!config?.templater?.scriptFilesFolderLocation) {
+      console.error(
+        "The `templater.scriptFilesFolderLocation` key in the `config.json` is required."
+      );
+      return;
+    }
+
+    const root = __dirname;
+    fs.cpSync(
+      resolve(root, "lib", "fryTempura.js"),
+      resolve(config.templater.scriptFilesFolderLocation, "fryTempura.js")
+    );
 
     (path ? [path] : fs.readdirSync("src").map((x) => join("src", x))).forEach(
       (x) => build(x, config.templater.templateFolderLocation)

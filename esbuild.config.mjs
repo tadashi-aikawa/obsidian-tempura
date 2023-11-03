@@ -5,5 +5,6 @@ await esbuild.build({
   platform: "neutral",
   format: "cjs",
   bundle: true,
-  outfile: "dist/fryTempura.js",
+  outfile: "lib/fryTempura.js",
+  minify: true,
 });

@@ -9,7 +9,7 @@ const root = path.resolve(__dirname, "../");
 function showHelp() {
   console.log(
     `
-[Build]
+[build]
 tempura 
 tempura build
 

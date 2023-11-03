@@ -102,7 +102,7 @@ bun build
 
 #### Artifacts
 
-- `dist/index.js`
+- `lib/fryTempura.js`
 
 ### Build docs
 
