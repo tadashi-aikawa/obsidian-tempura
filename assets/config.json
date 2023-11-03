@@ -1,0 +1,6 @@
+{
+  "templater": {
+    "templateFolderLocation": "templates",
+    "scriptFilesFolderLocation": "script"
+  }
+}

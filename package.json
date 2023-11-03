@@ -1,12 +1,7 @@
 {
   "name": "obsidian-tempura",
   "module": "src/index.ts",
-  "scripts": {
-    "dev": "bun test --watch",
-    "build": "mkdir -p dist && bun esbuild.config.mjs",
-    "build:docs": "typedoc src/functions.ts",
-    "release": "git tag ${VERSION} && git push origin ${VERSION}"
-  },
+  "types": "src/index.d.ts",
   "devDependencies": {
     "bun-types": "latest",
     "esbuild": "^0.19.5",
@@ -16,5 +11,17 @@
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
-  "type": "commonjs"
+  "bin": {
+    "tempura": "./bin/tempura"
+  },
+  "scripts": {
+    "dev": "bun test --watch",
+    "build": "mkdir -p dist && bun esbuild.config.mjs",
+    "build:docs": "typedoc src/functions.ts",
+    "release": "git tag ${VERSION} && git push origin ${VERSION}"
+  },
+  "type": "commonjs",
+  "dependencies": {
+    "chokidar": "^3.5.3"
+  }
 }

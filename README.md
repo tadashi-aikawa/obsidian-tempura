@@ -35,6 +35,49 @@ insert("🦉Mimizou")
 %>
 ```
 
+## Use Obsidian Tempura CLI
+
+TempuraのCLIを利用するとTemplater Scriptをnpmプロジェクトのように開発できます。
+
+- IDE上で型チェックや補完の恩恵を受けられます
+- TypeScriptファイルを[Templater Script]のマークダウンファイルに変換できます
+  - 変更があったファイルのみを素早く変換することも可能です
+- Vault内部に、[Templater Script]や最新の[Obsidian Tempura]を送り込めます
+
+### インストール
+
+```console
+npm install https://github.com/tadashi-aikawa/obsidian-tempura.git
+npx tempura init
+```
+
+### 設定
+
+`config.json`の設定を変更しましょう。
+
+```json
+{
+  "templater": {
+    "templateFolderLocation": "Templaterのtemplate folder locationで指定したパス",
+    "scriptFilesFolderLocation": "Templaterのscript files folder locationで指定したパス"
+  }
+}
+```
+
+### ビルド
+
+scr配下のtsファイルをmdファイルに変換し、`templater.templateFolderLocation`で指定したディレクトリ内に転送します。
+
+```console
+npx tempura build
+```
+
+watchモードでは変更があったtsファイルのみを即座に対象とします。
+
+```console
+npx tempura watch
+```
+
 ## API Documantation
 
 https://tadashi-aikawa.github.io/obsidian-tempura/

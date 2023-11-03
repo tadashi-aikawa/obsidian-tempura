@@ -1,0 +1,97 @@
+#!/usr/bin/env node
+
+const fs = require("fs");
+const path = require("path");
+const execSync = require("child_process").execSync;
+
+const root = path.resolve(__dirname, "../");
+
+function showHelp() {
+  console.log(
+    `
+[Build]
+tempura 
+tempura build
+
+[watch]
+tampura watch
+tampura --watch
+tampura -w
+
+[init]
+tampura init
+tampura --init
+`.trim()
+  );
+}
+
+function init() {
+  fs.mkdirSync("src");
+  console.log(`"src" directory is created.`);
+
+  fs.cpSync(
+    path.resolve(root, "assets/insert_mimizou.ts"),
+    "./src/insert_mimizou.ts"
+  );
+  console.log(`"src/insert_mimizou.ts" is created.`);
+
+  fs.cpSync(path.resolve(root, "assets/config.json"), "./config.json");
+  console.log(`"config.json" is created.`);
+
+  fs.cpSync(path.resolve(root, "assets/tempura.d.ts"), "./tempura.d.ts");
+  console.log(`"tempura.d.ts" is created.`);
+}
+
+function build() {
+  const hotCommand = `node ${root}/dev.mjs`;
+  try {
+    execSync(hotCommand, { stdio: "inherit" });
+  } catch (error) {
+    console.error(`Failed to execute "${hotCommand}":`, error);
+  }
+}
+
+function watch() {
+  const chokidar = require("chokidar");
+
+  const watcher = chokidar.watch("src", {
+    persistent: true,
+  });
+
+  watcher.on("change", (path) => {
+    const hotCommand = `node ${root}/dev.mjs ${path}`;
+    console.log(`File ${path} has been changed. Running "${hotCommand}"...`);
+    try {
+      execSync(hotCommand, { stdio: "inherit" });
+    } catch (error) {
+      console.error(`Failed to execute "${hotCommand}":`, error);
+    }
+  });
+
+  console.log("Watching files for changes...");
+}
+
+const [command] = process.argv.slice(2);
+switch (command) {
+  case "build":
+  case undefined:
+    build();
+    break;
+  case "watch":
+  case "--watch":
+  case "-w":
+    watch();
+    break;
+  case "init":
+  case "--init":
+    init();
+    break;
+  case "help":
+  case "--help":
+  case "-h":
+    showHelp();
+    break;
+  default:
+    console.log("Invalid command.");
+    showHelp();
+}
