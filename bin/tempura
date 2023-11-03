@@ -40,6 +40,13 @@ function init() {
 
   fs.cpSync(path.resolve(root, "assets/tempura.d.ts"), "./tempura.d.ts");
   console.log(`"tempura.d.ts" is created.`);
+
+  fs.cpSync(path.resolve(root, "assets/tsconfig.json"), "./tsconfig.json");
+  console.log(`"tsconfig.json" is created.`);
+
+  console.log(`Installing "TypeScript"...`);
+  execSync("npm install -D typescript@5.2 @tsconfig/node18");
+  console.log(`"TypeScript" is installed.`);
 }
 
 function build() {
