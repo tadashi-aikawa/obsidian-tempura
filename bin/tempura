@@ -59,10 +59,13 @@ function build() {
 }
 
 function watch() {
+  build();
+
   const chokidar = require("chokidar");
 
   const watcher = chokidar.watch("src", {
     persistent: true,
+    ignoreInitial: true,
   });
 
   watcher.on("change", (path) => {

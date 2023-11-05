@@ -116,15 +116,15 @@ npx tempura build
 
 ビルドを実行すると、まずは`fryTempura.js`スクリプトが`templater.scriptFilesFolderLocation`で指定したディレクトリ配下に転送されます。その後、src配下のtsファイルをTemplater script(mdファイル)に変換し、`templater.templateFolderLocation`で指定したディレクトリ内に転送します。
 
-#### watchモード
+#### watchコマンド
 
-watchモードでは、変更があったtsファイルのみを転送できます。
+watchコマンドでは、変更があったtsファイルのみを転送できます。
 
 ```console
 npx tempura watch
 ```
 
-watchモードでは`fryTempura.js`の転送は行いません。Obsidian Tempuraをバージョンアップしたときはまずビルドを実行し、その後にwatchモードを起動して、1つずつTemplater scriptを改修するフローをオススメします。
+watchコマンドの差分転送では`fryTempura.js`の転送は行いません。ただし、watchコマンド起動時には前処理としてビルド処理が実行されますので、結果的に`fryTempura.js`とすべてのtsファイルを変換したmdファイルは転送されます。
 
 ## For developers
 
