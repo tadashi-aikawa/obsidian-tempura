@@ -36,7 +36,7 @@ Obsidian Tempuraには2種類の使い方があります。
 
 `fryTempura.js`は以下のURLから取得できます。
 
-https://github.com/tadashi-aikawa/obsidian-tempura/blob/main/lib/fryTempura.js
+https://raw.githubusercontent.com/tadashi-aikawa/obsidian-tempura/main/lib/fryTempura.js
 
 ### 使い方
 
