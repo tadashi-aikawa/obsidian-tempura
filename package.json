@@ -5,6 +5,7 @@
   "devDependencies": {
     "bun-types": "latest",
     "esbuild": "^0.19.5",
+    "husky": "^8.0.3",
     "obsidian": "^1.4.11",
     "typedoc": "^0.25.2"
   },
@@ -17,7 +18,9 @@
   "scripts": {
     "dev": "bun test --watch",
     "build": "mkdir -p lib && bun esbuild.config.mjs",
-    "build:docs": "typedoc src/functions.ts"
+    "build:docs": "typedoc src/functions.ts",
+    "prepare": "husky install",
+    "pre:push": "bun run build && git diff --quiet esbuild.config.mjs"
   },
   "type": "commonjs",
   "dependencies": {
