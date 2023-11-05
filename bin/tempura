@@ -78,6 +78,12 @@ function watch() {
     }
   });
 
+  // XXX: Workaround for Zombie Processes
+  process.on("SIGHUP", async () => {
+    await watcher.close();
+    process.exit(0);
+  });
+
   console.log("Watching files for changes...");
 }
 
