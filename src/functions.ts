@@ -300,3 +300,8 @@ export function now(
       return nowMoment.format(format);
   }
 }
+
+export function showInputDialog(message: string): Promise<string | null> {
+  const tp = helper.useTemplaterInternalFunction();
+  return tp.system.prompt(message);
+}

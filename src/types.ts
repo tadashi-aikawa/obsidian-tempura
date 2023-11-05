@@ -54,4 +54,20 @@ export type UApp = App & {
   metadataCache: {
     getBacklinksForFile(file: TFile): { data: Record<string, ULinkCache[]> };
   };
+  plugins: {
+    plugins: { [key: string]: any };
+  };
+};
+
+export type UTemplater = {
+  system: {
+    // https://silentvoid13.github.io/Templater/internal-functions/internal-modules/system-module.html
+    // null: if cancel
+    prompt(
+      promptText?: string,
+      defaultValue?: string,
+      throwOnCancel?: boolean,
+      multiline?: boolean
+    ): Promise<string | null>;
+  };
 };

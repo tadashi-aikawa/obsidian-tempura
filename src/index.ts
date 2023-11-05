@@ -22,6 +22,7 @@ import {
   getCreationDate,
   getUpdateDate,
   now,
+  showInputDialog,
 } from "./functions";
 
 module.exports = () => ({
@@ -48,4 +49,5 @@ module.exports = () => ({
   stripLinksFromSelection,
   notify,
   now,
+  showInputDialog,
 });

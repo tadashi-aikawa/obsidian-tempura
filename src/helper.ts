@@ -6,6 +6,7 @@ import {
   UEditor,
   ULinkCache,
   UMetadataEditor,
+  UTemplater,
 } from "./types";
 
 declare let app: UApp;
@@ -120,4 +121,9 @@ export function notify(text: string | DocumentFragment, timeoutMs?: number) {
 
 export function createMoment(input?: MomentInput): Moment {
   return moment(input);
+}
+
+export function useTemplaterInternalFunction(): UTemplater {
+  return app.plugins.plugins["templater-obsidian"].templater
+    .current_functions_object as UTemplater;
 }
