@@ -20,7 +20,7 @@
     "build": "mkdir -p lib && bun esbuild.config.mjs",
     "build:docs": "typedoc src/functions.ts",
     "prepare": "husky install",
-    "pre:push": "bun run build && git diff --quiet esbuild.config.mjs"
+    "pre:push": "bun run build && git diff --quiet lib/fryTempura.js"
   },
   "type": "commonjs",
   "dependencies": {
