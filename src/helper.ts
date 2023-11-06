@@ -3,7 +3,6 @@ import {
   EditorPosition,
   FrontMatterCache,
   Loc,
-  Pos,
   SectionCache,
   TFile,
 } from "obsidian";
@@ -26,7 +25,7 @@ declare class Notice {
   constructor(message: string | DocumentFragment, duration?: number | null);
 }
 
-const locToEditorPosition = (loc: Loc): EditorPosition => ({
+const toEditorPosition = (loc: Omit<Loc, "offset">): EditorPosition => ({
   ch: loc.col,
   line: loc.line,
 });
@@ -41,11 +40,28 @@ export function getActiveFileCache(): CachedMetadata | null {
   return app.metadataCache.getFileCache(f);
 }
 
+export function getFileByPath(path: string): TFile | null {
+  const abstractFile = app.vault.getAbstractFileByPath(path);
+  if (!abstractFile) {
+    return null;
+  }
+
+  return abstractFile as TFile;
+}
+
+export function getFileCacheByPath(path: string): CachedMetadata | null {
+  const f = getFileByPath(path);
+  if (!f) {
+    return null;
+  }
+  return app.metadataCache.getFileCache(f);
+}
+
 export const getActiveFileFrontmatter = (): FrontMatterCache | null =>
   getActiveFileCache()?.frontmatter ?? null;
 
-export const getActiveFileCodeBlockSections = (): SectionCache[] =>
-  getActiveFileCache()?.sections?.filter((x) => x.type === "code") ?? [];
+export const getCodeBlockSectionsByPath = (path: string): SectionCache[] =>
+  getFileCacheByPath(path)?.sections?.filter((x) => x.type === "code") ?? [];
 
 export const getActiveEditor = (): UEditor | null =>
   app.workspace.activeEditor?.editor ?? null;
@@ -82,19 +98,40 @@ export function getSelection(): string | null {
   return editor.getSelection();
 }
 
-export function getActiveFileContent(pos?: Pos): string | null {
+export async function loadFileContent(
+  path: string,
+  position?: {
+    start: Pick<Loc, "offset">;
+    end: Pick<Loc, "offset">;
+  }
+): Promise<string | null> {
+  const f = getFileByPath(path);
+  if (!f) {
+    return null;
+  }
+
+  const text = await app.vault.cachedRead(f);
+  return position
+    ? text.slice(position.start.offset, position.end.offset)
+    : text;
+}
+
+export function getActiveFileContent(position?: {
+  start: Omit<Loc, "offset">;
+  end: Omit<Loc, "offset">;
+}): string | null {
   const editor = getActiveEditor();
   if (!editor) {
     return null;
   }
 
-  if (!pos) {
+  if (!position) {
     return editor.getValue();
   }
 
   return editor.getRange(
-    locToEditorPosition(pos.start),
-    locToEditorPosition(pos.end)
+    toEditorPosition(position.start),
+    toEditorPosition(position.end)
   );
 }
 
@@ -158,4 +195,8 @@ export function createMoment(input?: MomentInput): Moment {
 export function useTemplaterInternalFunction(): UTemplater {
   return app.plugins.plugins["templater-obsidian"].templater
     .current_functions_object as UTemplater;
+}
+
+export function usePeriodicNotesSettings(): UApp["plugins"]["plugins"]["periodic-notes"] {
+  return app.plugins.plugins["periodic-notes"];
 }

@@ -55,7 +55,14 @@ export type UApp = App & {
     getBacklinksForFile(file: TFile): { data: Record<string, ULinkCache[]> };
   };
   plugins: {
-    plugins: { [key: string]: any };
+    plugins: {
+      "periodic-notes"?: {
+        settings: {
+          daily: { folder?: string; format?: string | "" };
+        };
+      };
+      [key: string]: any;
+    };
   };
 };
 

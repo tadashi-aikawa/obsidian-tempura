@@ -1,4 +1,4 @@
-import { FrontMatterCache, Pos } from "obsidian";
+import { FrontMatterCache, Pos, TFile } from "obsidian";
 import { ExhaustiveError } from "./errors";
 import * as helper from "./helper";
 import { Moment, UEditor, UMetadataEditor } from "./types";
@@ -9,6 +9,8 @@ import {
   stripDecoration,
   stripLinks,
 } from "./utils/parser";
+import { getDatesInRange } from "./utils/dates";
+import { isPresent } from "./utils/types";
 
 interface CodeBlock {
   language: string | null;
@@ -147,17 +149,30 @@ export function getSelectionLines(): string[] | null {
 /**
  * Get code blocks from the active file
  */
-export function getCodeBlocks(): CodeBlock[] {
-  return helper.getActiveFileCodeBlockSections().map((x) => {
-    const blockStr = helper.getActiveFileContent(x.position)!;
+export async function getCodeBlocks(): Promise<CodeBlock[]> {
+  const path = helper.getActiveFile()?.path;
+  return path ? getCodeBlocksFrom(path) : [];
+}
+
+/**
+ * Get code blocks from path
+ */
+export async function getCodeBlocksFrom(path: string): Promise<CodeBlock[]> {
+  const sections = helper.getCodeBlockSectionsByPath(path);
+
+  const blocks = [];
+  for (const section of sections) {
+    const blockStr = (await helper.loadFileContent(path, section.position))!;
     const language =
       blockStr.match(/[`~]{3,}(?<language>[^ \n]*)/)?.groups?.language || null;
-    return {
+    blocks.push({
       language,
       content: blockStr.split("\n").slice(1).slice(0, -1).join("\n"),
-      position: x.position,
-    };
-  });
+      position: section.position,
+    });
+  }
+
+  return blocks;
 }
 
 /**
@@ -326,4 +341,48 @@ export function now(
 export function showInputDialog(message: string): Promise<string | null> {
   const tp = helper.useTemplaterInternalFunction();
   return tp.system.prompt(message);
+}
+
+/**
+ * ```ts
+ * > getDailyNotes("2023-10-12", "2023-10-14")
+ * ["Daily Note/2023-10-12.md", "Daily Note/2023-10-13.md", "Daily Note/2023-10-14.md"]
+ * ```
+ */
+export function getDailyNotes(begin: string, end: string): TFile[] {
+  const dailySettings = helper.usePeriodicNotesSettings()?.settings.daily;
+  if (!dailySettings) {
+    throw new Error("Periodic Notes plugin is not installed.");
+  }
+
+  return getDatesInRange(helper.createMoment(begin), helper.createMoment(end))
+    .map((x) =>
+      helper.getFileByPath(
+        `${dailySettings.folder}/${x.format(
+          dailySettings.format || "YYYY-MM-DD"
+        )}.md`
+      )
+    )
+    .filter(isPresent);
+}
+
+export async function loadFileContent(
+  path: string,
+  position?: Pos
+): Promise<string> {
+  const content = await helper.loadFileContent(path, position);
+  if (content == null) {
+    throw new Error(`${path} is not existed.`);
+  }
+
+  return content;
+}
+
+export function getContent(position?: Pos) {
+  const content = helper.getActiveFileContent(position);
+  if (content == null) {
+    throw new Error(`Couldn't get content from the active file.`);
+  }
+
+  return content;
 }

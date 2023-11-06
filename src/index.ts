@@ -24,6 +24,10 @@ import {
   now,
   showInputDialog,
   getCodeBlocks,
+  getCodeBlocksFrom,
+  getDailyNotes,
+  getContent,
+  loadFileContent,
 } from "./functions";
 
 module.exports = () => ({
@@ -52,4 +56,8 @@ module.exports = () => ({
   now,
   showInputDialog,
   getCodeBlocks,
+  getCodeBlocksFrom,
+  getDailyNotes,
+  getContent,
+  loadFileContent,
 });
