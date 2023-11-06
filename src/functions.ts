@@ -524,13 +524,13 @@ export function getDailyNotes(begin: string, end: string): TFile[] {
  * パスで指定したファイルの中身(テキスト)を取得します
  *
  * ```ts
- * await loadFileContent("Notes/Obsidian.md")
+ * await getFileContent("Notes/Obsidian.md")
  * // "Obsidianは最高のマークダウンエディタである\n完"
- * await loadFileContent("Notes/Obsidian.md", { start: { offset: 1 }, end: { offset: 10 } })
+ * await getFileContent("Notes/Obsidian.md", { start: { offset: 1 }, end: { offset: 10 } })
  * // "bsidianは最"
  * ```
  */
-export async function loadFileContent(
+export async function getFileContent(
   path: string,
   position?: {
     start: { offset: number };
@@ -555,7 +555,7 @@ export async function loadFileContent(
  * // "bsidianは最"
  * ```
  */
-export function getContent(position?: {
+export function getActiveFileContent(position?: {
   start: { line: number; col: number };
   end: { line: number; col: number };
 }): string {
