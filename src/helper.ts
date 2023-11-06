@@ -1,4 +1,12 @@
-import { CachedMetadata, FrontMatterCache, TFile } from "obsidian";
+import {
+  CachedMetadata,
+  EditorPosition,
+  FrontMatterCache,
+  Loc,
+  Pos,
+  SectionCache,
+  TFile,
+} from "obsidian";
 import {
   Moment,
   MomentInput,
@@ -18,6 +26,11 @@ declare class Notice {
   constructor(message: string | DocumentFragment, duration?: number | null);
 }
 
+const locToEditorPosition = (loc: Loc): EditorPosition => ({
+  ch: loc.col,
+  line: loc.line,
+});
+
 export const getActiveFile = (): TFile | null => app.workspace.getActiveFile();
 
 export function getActiveFileCache(): CachedMetadata | null {
@@ -30,6 +43,9 @@ export function getActiveFileCache(): CachedMetadata | null {
 
 export const getActiveFileFrontmatter = (): FrontMatterCache | null =>
   getActiveFileCache()?.frontmatter ?? null;
+
+export const getActiveFileCodeBlockSections = (): SectionCache[] =>
+  getActiveFileCache()?.sections?.filter((x) => x.type === "code") ?? [];
 
 export const getActiveEditor = (): UEditor | null =>
   app.workspace.activeEditor?.editor ?? null;
@@ -64,6 +80,22 @@ export function getSelection(): string | null {
   }
 
   return editor.getSelection();
+}
+
+export function getActiveFileContent(pos?: Pos): string | null {
+  const editor = getActiveEditor();
+  if (!editor) {
+    return null;
+  }
+
+  if (!pos) {
+    return editor.getValue();
+  }
+
+  return editor.getRange(
+    locToEditorPosition(pos.start),
+    locToEditorPosition(pos.end)
+  );
 }
 
 export function setSelection(text: string): void {

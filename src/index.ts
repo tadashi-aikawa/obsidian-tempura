@@ -23,6 +23,7 @@ import {
   getUpdateDate,
   now,
   showInputDialog,
+  getCodeBlocks,
 } from "./functions";
 
 module.exports = () => ({
@@ -50,4 +51,5 @@ module.exports = () => ({
   notify,
   now,
   showInputDialog,
+  getCodeBlocks,
 });

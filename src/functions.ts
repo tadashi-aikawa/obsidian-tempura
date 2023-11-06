@@ -1,4 +1,4 @@
-import { FrontMatterCache } from "obsidian";
+import { FrontMatterCache, Pos } from "obsidian";
 import { ExhaustiveError } from "./errors";
 import * as helper from "./helper";
 import { Moment, UEditor, UMetadataEditor } from "./types";
@@ -9,6 +9,12 @@ import {
   stripDecoration,
   stripLinks,
 } from "./utils/parser";
+
+interface CodeBlock {
+  language: string | null;
+  content: string;
+  position: Pos;
+}
 
 /**
  * Use instances with a shorter syntax
@@ -136,6 +142,22 @@ export function getActiveLineTags(): string[] {
  */
 export function getSelectionLines(): string[] | null {
   return helper.getActiveEditor()?.getSelection()?.split("\n") ?? null;
+}
+
+/**
+ * Get code blocks from the active file
+ */
+export function getCodeBlocks(): CodeBlock[] {
+  return helper.getActiveFileCodeBlockSections().map((x) => {
+    const blockStr = helper.getActiveFileContent(x.position)!;
+    const language =
+      blockStr.match(/[`~]{3,}(?<language>[^ \n]*)/)?.groups?.language || null;
+    return {
+      language,
+      content: blockStr.split("\n").slice(1).slice(0, -1).join("\n"),
+      position: x.position,
+    };
+  });
 }
 
 /**
