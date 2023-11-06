@@ -1,4 +1,4 @@
-import { FrontMatterCache, Pos, TFile } from "obsidian";
+import { FrontMatterCache, Loc, Pos, TFile } from "obsidian";
 import { ExhaustiveError } from "./errors";
 import * as helper from "./helper";
 import { Moment, UEditor, UMetadataEditor } from "./types";
@@ -19,7 +19,7 @@ interface CodeBlock {
 }
 
 /**
- * Use instances with a shorter syntax
+ * 短い呼び出し表現でプロパティを呼び出せます
  */
 export function use(): {
   editor: UEditor | null;
@@ -34,7 +34,12 @@ export function use(): {
 }
 
 /**
- * Add a property to the frontmatter
+ * 現在ファイルにプロパティを追加します
+ *
+ * ```ts
+ * addProperty("id", 100)
+ * addProperty("favorites", ["apple", "orange"])
+ * ```
  */
 export function addProperty(key: string, value: any | any[]): void {
   const editor = helper.getActiveMetadataEditor();
@@ -46,7 +51,11 @@ export function addProperty(key: string, value: any | any[]): void {
 }
 
 /**
- * Add properties to the frontmatter
+ * 現在ファイルに複数のプロパティを追加します
+ *
+ * ```ts
+ * addProperty({id: 100, favorites: ["apple", "orange"]})
+ * ```
  */
 export function addProperties(properties: {
   [key: string]: any | any[];
@@ -60,7 +69,11 @@ export function addProperties(properties: {
 }
 
 /**
- * Update a property to the frontmatter
+ * 現在ファイルのプロパティを更新します
+ *
+ * ```ts
+ * updateProperty("id", 200)
+ * ```
  */
 export function updateProperty(key: string, value: any | any[]): void {
   removeProperty(key);
@@ -68,7 +81,11 @@ export function updateProperty(key: string, value: any | any[]): void {
 }
 
 /**
- * Remove a property from the frontmatter
+ * 現在ファイルのプロパティを削除します
+ *
+ * ```ts
+ * removeProperty("id")
+ * ```
  */
 export function removeProperty(key: string): void {
   const editor = helper.getActiveMetadataEditor();
@@ -80,14 +97,35 @@ export function removeProperty(key: string): void {
 }
 
 /**
- * Read tags from a "tags" property
+ * 現在ファイルのtagsプロパティを取得します
+ *
+ * ```ts
+ * readTagsFromProperty()
+ * // ["id", "favorites"]
+ * ```
  */
 export function readTagsFromProperty(): string[] {
   return helper.getActiveFileFrontmatter()?.tags ?? [];
 }
 
 /**
- * Focus on the frontmatter value element
+ * 現在ファイルのaliasesプロパティを取得します
+ *
+ * ```ts
+ * readAliasesFromProperty()
+ * // ["obsidian", "オブシディアン"]
+ * ```
+ */
+export function readAliasesFromProperty(): string[] {
+  return helper.getActiveFileFrontmatter()?.aliases ?? [];
+}
+
+/**
+ * 現在ファイルのプロパティにフォーカスをあてます
+ *
+ * ```ts
+ * focusPropertyValue("id")
+ * ```
  */
 export function focusPropertyValue(key: string): void {
   const editor = helper.getActiveMetadataEditor();
@@ -99,14 +137,11 @@ export function focusPropertyValue(key: string): void {
 }
 
 /**
- * Read aliases from a "aliases" property
- */
-export function readAliasesFromProperty(): string[] {
-  return helper.getActiveFileFrontmatter()?.aliases ?? [];
-}
-
-/**
- * Insert text at the cursor position
+ * カーソル位置にテキストを挿入します
+ *
+ * ```ts
+ * await insert("hogehoge")
+ * ```
  */
 export async function insert(text: string): Promise<void> {
   const editor = helper.getActiveEditor();
@@ -118,21 +153,35 @@ export async function insert(text: string): Promise<void> {
 }
 
 /**
- * Get active line as string
+ * 現在行のテキストを取得します
+ *
+ * ```ts
+ * getActiveLine()
+ * // active line contents
+ * ```
  */
 export function getActiveLine(): string | null {
   return helper.getActiveLine();
 }
 
 /**
- * Delete active line
+ * 現在行を削除します
+ *
+ * ```ts
+ * deleteActiveLine()
+ * ```
  */
 export function deleteActiveLine(): void {
   return helper.deleteActiveLine();
 }
 
 /**
- * Get tags from the active line
+ * 現在行に含まれるタグの一覧を取得します
+ *
+ * ```ts
+ * getActiveLineTags()
+ * // ["todo", "done"]
+ * ```
  */
 export function getActiveLineTags(): string[] {
   const line = getActiveLine();
@@ -140,14 +189,38 @@ export function getActiveLineTags(): string[] {
 }
 
 /**
- * Get selection lines
+ * 選択しているテキストを1行ずつ取得します
+ *
+ * ```ts
+ * getSelectionLines()
+ * // ["- one", "- two", "- three"]
+ * ```
  */
 export function getSelectionLines(): string[] | null {
   return helper.getActiveEditor()?.getSelection()?.split("\n") ?? null;
 }
 
 /**
- * Get code blocks from the active file
+ * 選択範囲をテキストで置換します
+ *
+ * ```ts
+ * setTextToSelection("after text")
+ * ```
+ */
+export function setTextToSelection(text: string): void {
+  helper.getActiveEditor()?.replaceSelection(text);
+}
+
+/**
+ * 現在のファイルのコードブロックを取得します
+ *
+ * ```ts
+ * await getCodeBlocks()
+ * // [
+ * //   {language: "typescript", content: "const hoge = 'huga'", pos: ...},
+ * //   {language: "javascript", content: "var hoge = 'huga'", pos: ...},
+ * // ]
+ * ```
  */
 export async function getCodeBlocks(): Promise<CodeBlock[]> {
   const path = helper.getActiveFile()?.path;
@@ -155,7 +228,15 @@ export async function getCodeBlocks(): Promise<CodeBlock[]> {
 }
 
 /**
- * Get code blocks from path
+ * パスで指定したファイルのコードブロックを取得します
+ *
+ * ```ts
+ * await getCodeBlocksFrom("Notes/sample-code.md")
+ * // [
+ * //   {language: "typescript", content: "const hoge = 'huga'", pos: ...},
+ * //   {language: "javascript", content: "var hoge = 'huga'", pos: ...},
+ * // ]
+ * ```
  */
 export async function getCodeBlocksFrom(path: string): Promise<CodeBlock[]> {
   const sections = helper.getCodeBlockSectionsByPath(path);
@@ -176,19 +257,23 @@ export async function getCodeBlocksFrom(path: string): Promise<CodeBlock[]> {
 }
 
 /**
- * Set text to selection
- */
-export function setTextToSelection(text: string): void {
-  helper.getActiveEditor()?.replaceSelection(text);
-}
-
-/**
- * Attach text to the specified list item as a prefix or a suffix
+ * 現在行のリスト要素に対して、先頭や末尾にテキストを追記します
+ *
+ * @param option.attached
+ *   - prefix: 先頭に追記 (default)
+ *   - suffix: 末尾に追記
+ * @param option.cursor
+ *   - last: 追記後、現在行の末尾にカーソルを移動する
+ *
+ * ```ts
+ * await attachTextToListItem("👺")
+ * await attachTextToListItem("🐈", { attached: "suffix", cursor: "last" })
+ * ```
  */
 export function attachTextToListItem(
   text: string,
   option?: { attached?: "prefix" | "suffix"; cursor?: "last" }
-) {
+): void {
   const activeLine = helper.getActiveLine()!;
   const { prefix, content } = parseMarkdownList(activeLine);
 
@@ -209,12 +294,23 @@ export function attachTextToListItem(
 }
 
 /**
- * Sort selection lines
+ * 選択中のテキスト複数行をソートします
+ *
+ * @param option.order
+ *   - asc:  昇順 (default)
+ *   - desc: 降順
+ * @param option.predicate: ソートの指標決めロジック
+ *
+ * ```ts
+ * sortSelectionLines()
+ * // 文字列の長さで降順ソート
+ * sortSelectionLines({ order: "desc", predicate: (x) => x.length })
+ * ```
  */
 export function sortSelectionLines(option?: {
   order?: "asc" | "desc";
   predicate?: (x: any) => string | number;
-}) {
+}): void {
   const order = option?.order ?? "asc";
   const predicate = option?.predicate ?? ((x) => x);
 
@@ -229,9 +325,13 @@ export function sortSelectionLines(option?: {
 }
 
 /**
- * Strip decoration from selection
+ * 選択範囲のテキストから装飾を除外します
  *
- * ex: "**hoge** _hoga_ ==hogu==" -> "hoge hoga hogu"
+ * ◆実行後のbefore/after例
+ * ```diff
+ * - **hoge** _hoga_ ==hogu==
+ * + hoge hoga hogu
+ * ```
  */
 export function stripDecorationFromSelection(): void {
   const selection = helper.getSelection();
@@ -244,9 +344,13 @@ export function stripDecorationFromSelection(): void {
 }
 
 /**
- * Strip decoration from selection
+ * 選択範囲のテキストからリンクを除外します
  *
- * ex: "[hoge] [huga](xxx) [[fuga]]" -> "hoge huga fuga"
+ * ◆実行後のbefore/after例
+ * ```diff
+ * - [hoge] [huga](xxx) [[fuga]]
+ * + hoge huga fuga
+ * ```
  */
 export function stripLinksFromSelection(): void {
   const selection = helper.getSelection();
@@ -259,8 +363,17 @@ export function stripLinksFromSelection(): void {
 }
 
 /**
- * Notify a message
- * @param never: default is 5000ms
+ * メッセージを通知します
+ *
+ * @param timeoutMs
+ *   - 数値:   メッセージを自動で消去するミリ秒 (default: 5000ms)
+ *   - never:  メッセージを自動で消去しない
+ *
+ * ```ts
+ * notify("メッセージ")
+ * notify("3秒で消えるメッセージ", 3000)
+ * notify("自動で消去しないメッセージ", "never")
+ * ```
  */
 export function notify(
   text: string | DocumentFragment,
@@ -270,15 +383,28 @@ export function notify(
 }
 
 /**
- * Get paths of the backlinks from an active file
- * @param never: default is 5000ms
+ * 現在のファイルにおけるバックリンクのパスを取得します
+ *
+ * ```ts
+ * getBacklinkPaths()
+ * // ["Notes/backlink1.md", "Notes/backlink2.md"]
+ * ```
  */
 export function getBacklinkPaths(): string[] {
   return Object.keys(helper.getBacklinksByFilePathInActiveFile() ?? {});
 }
 
 /**
- * Get the file creation date
+ * 現在ファイルの作成日時を取得します
+ *
+ * ```ts
+ * getCreationDate("YYYY-MM-DD")
+ * // "2023-11-06"
+ * getCreationDate("unixtime")
+ * // 1699259384
+ * getCreationDate("moment")
+ * // $ {_isAMomentObject: true, _isUTC: false, _pf: {…}, _locale: ne, _d: Mon Nov 06 2023 17:29:24 GMT+0900 (日本標準時), …}
+ * ```
  */
 export function getCreationDate(
   format: string | "unixtime" | "moment"
@@ -300,7 +426,16 @@ export function getCreationDate(
 }
 
 /**
- * Get the file update date
+ * 現在ファイルの更新日時を取得します
+ *
+ * ```ts
+ * getUpdateDate("YYYY-MM-DD")
+ * // "2023-11-06"
+ * getUpdateDate("unixtime")
+ * // 1699259384
+ * getUpdateDate("moment")
+ * // $ {_isAMomentObject: true, _isUTC: false, _pf: {…}, _locale: ne, _d: Mon Nov 06 2023 17:29:24 GMT+0900 (日本標準時), …}
+ * ```
  */
 export function getUpdateDate(
   format: string | "unixtime" | "moment"
@@ -322,11 +457,20 @@ export function getUpdateDate(
 }
 
 /**
- * Get now
+ * 現在日時を取得します
+ *
+ * ```ts
+ * now("YYYY-MM-DD")
+ * // "2023-11-06"
+ * now("unixtime")
+ * // 1699259384
+ * now("moment")
+ * // $ {_isAMomentObject: true, _isUTC: false, _pf: {…}, _locale: ne, _d: Mon Nov 06 2023 17:29:24 GMT+0900 (日本標準時), …}
+ * ```
  */
 export function now(
   format: string | "unixtime" | "moment"
-): string | number | Moment | null {
+): string | number | Moment {
   const nowMoment = helper.createMoment();
   switch (format) {
     case "unixtime":
@@ -338,15 +482,25 @@ export function now(
   }
 }
 
+/**
+ * 入力ダイアログを表示します
+ *
+ * ```ts
+ * await showInputDialog("名前を入力してください")
+ * // "入力した名前"
+ * ```
+ */
 export function showInputDialog(message: string): Promise<string | null> {
   const tp = helper.useTemplaterInternalFunction();
   return tp.system.prompt(message);
 }
 
 /**
+ * 日付beginとendの間に存在するデイリーノートのファイルオブジェクトを取得します
+ *
  * ```ts
- * > getDailyNotes("2023-10-12", "2023-10-14")
- * ["Daily Note/2023-10-12.md", "Daily Note/2023-10-13.md", "Daily Note/2023-10-14.md"]
+ * getDailyNotes("2023-10-12", "2023-10-14")
+ * // ["Daily Note/2023-10-12.md", "Daily Note/2023-10-13.md", "Daily Note/2023-10-14.md"]
  * ```
  */
 export function getDailyNotes(begin: string, end: string): TFile[] {
@@ -366,9 +520,22 @@ export function getDailyNotes(begin: string, end: string): TFile[] {
     .filter(isPresent);
 }
 
+/**
+ * パスで指定したファイルの中身(テキスト)を取得します
+ *
+ * ```ts
+ * await loadFileContent("Notes/Obsidian.md")
+ * // "Obsidianは最高のマークダウンエディタである\n完"
+ * await loadFileContent("Notes/Obsidian.md", { start: { offset: 1 }, end: { offset: 10 } })
+ * // "bsidianは最"
+ * ```
+ */
 export async function loadFileContent(
   path: string,
-  position?: Pos
+  position?: {
+    start: { offset: number };
+    end: { offset: number };
+  }
 ): Promise<string> {
   const content = await helper.loadFileContent(path, position);
   if (content == null) {
@@ -378,7 +545,20 @@ export async function loadFileContent(
   return content;
 }
 
-export function getContent(position?: Pos) {
+/**
+ * パスで指定したファイルの中身(テキスト)を取得します
+ *
+ * ```ts
+ * await getContent()
+ * // "Obsidianは最高のマークダウンエディタである\n完"
+ * await getContent({ start: { offset: 1 }, end: { offset: 10 } })
+ * // "bsidianは最"
+ * ```
+ */
+export function getContent(position?: {
+  start: { line: number; col: number };
+  end: { line: number; col: number };
+}): string {
   const content = helper.getActiveFileContent(position);
   if (content == null) {
     throw new Error(`Couldn't get content from the active file.`);
