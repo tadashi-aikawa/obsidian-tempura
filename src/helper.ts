@@ -200,3 +200,9 @@ export function useTemplaterInternalFunction(): UTemplater {
 export function usePeriodicNotesSettings(): UApp["plugins"]["plugins"]["periodic-notes"] {
   return app.plugins.plugins["periodic-notes"];
 }
+
+export async function getObsidianPublishHost(): Promise<string> {
+  return app.internalPlugins.plugins["publish"].instance
+    .apiCustomUrl()
+    .then((x: any) => x.url);
+}

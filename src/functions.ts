@@ -566,3 +566,39 @@ export function getActiveFileContent(position?: {
 
   return content;
 }
+
+/**
+ * 現在のファイルのパスを取得します
+ *
+ * ```ts
+ * getActiveFilePath()
+ * // "Notes/activeFile.md"
+ * ```
+ */
+export function getActiveFilePath(): string | null {
+  return helper.getActiveFile()?.path ?? null;
+}
+
+/**
+ * クリップボードにテキストをコピーします
+ *
+ * ```ts
+ * await copyToClipboard("コピーしたいテキスト")
+ * ```
+ */
+export async function copyToClipboard(text: string): Promise<void> {
+  await (navigator as any).clipboard.writeText(text);
+}
+
+/**
+ * Obsidian PublishのURLを生成します
+ *
+ * ```ts
+ * createObsidianPublishUrl("Notes/published_site.md")
+ * // "https://minerva.mamansoft.net/Notes/published_site"
+ * ```
+ */
+export async function createObsidianPublishUrl(path: string): Promise<string> {
+  const host = await helper.getObsidianPublishHost();
+  return `https://${host}/${encodeURI(path.replace(".md", ""))}`;
+}

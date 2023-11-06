@@ -28,6 +28,9 @@ import {
   getDailyNotes,
   getFileContent,
   getActiveFileContent,
+  getActiveFilePath,
+  copyToClipboard,
+  createObsidianPublishUrl,
 } from "./functions";
 
 module.exports = () => ({
@@ -60,4 +63,7 @@ module.exports = () => ({
   getDailyNotes,
   getFileContent,
   getActiveFileContent,
+  getActiveFilePath,
+  copyToClipboard,
+  createObsidianPublishUrl,
 });

@@ -54,6 +54,9 @@ export type UApp = App & {
   metadataCache: {
     getBacklinksForFile(file: TFile): { data: Record<string, ULinkCache[]> };
   };
+  internalPlugins: {
+    plugins: { [key: string]: any };
+  };
   plugins: {
     plugins: {
       "periodic-notes"?: {
