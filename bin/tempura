@@ -72,7 +72,7 @@ function watch() {
   });
 
   watcher.on("change", (path) => {
-    const hotCommand = `node ${root}/dev.mjs ${path}`;
+    const hotCommand = `node ${root}/dev.mjs "${path}"`;
     console.log(`File ${path} has been changed. Running "${hotCommand}"...`);
     try {
       execSync(hotCommand, { stdio: "inherit" });
