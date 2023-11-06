@@ -47,6 +47,9 @@ function init() {
   console.log(`Installing "TypeScript"...`);
   execSync("npm install -D typescript@5.2 @tsconfig/node18");
   console.log(`"TypeScript" is installed.`);
+
+  execSync("npm pkg set type=module");
+  console.log("Set type=module");
 }
 
 function build() {
