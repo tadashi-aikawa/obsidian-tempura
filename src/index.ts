@@ -26,8 +26,8 @@ import {
   getCodeBlocks,
   getCodeBlocksFrom,
   getDailyNotes,
-  getContent,
-  loadFileContent,
+  getFileContent,
+  getActiveFileContent,
 } from "./functions";
 
 module.exports = () => ({
@@ -58,6 +58,6 @@ module.exports = () => ({
   getCodeBlocks,
   getCodeBlocksFrom,
   getDailyNotes,
-  getContent,
-  loadFileContent,
+  getFileContent,
+  getActiveFileContent,
 });

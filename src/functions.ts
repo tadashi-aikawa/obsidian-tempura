@@ -1,4 +1,4 @@
-import { FrontMatterCache, Loc, Pos, TFile } from "obsidian";
+import { FrontMatterCache, Pos, TFile } from "obsidian";
 import { ExhaustiveError } from "./errors";
 import * as helper from "./helper";
 import { Moment, UEditor, UMetadataEditor } from "./types";
