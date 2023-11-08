@@ -84,47 +84,43 @@ npx tempura init
 
 ### 設定
 
-`tempura init`で作成される設定ファイルは、プロジェクト内の`templates`ディレクトリと`script`ディレクトリを使うようになっています。動作確認時はこの設定のままがオススメです。
+`tempura init`で作成される`config.json`は以下です。
 
 ```json
 {
-  "templater": {
-    "templateFolderLocation": "templates",
-    "scriptFilesFolderLocation": "script"
+  // TemplaterのScriptフォルダのパス
+  // "script"を指定した場合、カレントディレクトリの`./script`以下に最新のスクリプト(jsファイル)が転送される
+  "scriptFilesFolderLocation": "script",
+  // tsファイルのディレクトリをキーに、mdファイル(Templater Script)のディレクトリパスを値に設定
+  // "src": "dist"を指定した場合、カレントディレクトリの`src`配下にあるtsファイルがmdファイルに変換され、カレントディレクトリの`dist`配下に転送される
+  "deployMap": {
+    "src": "dist"
   }
 }
 ```
 
-実際に利用する際は、Vaultの設定にあわせて`config.json`の設定を変更しましょう。
+
+実際に利用する際は、Vaultの設定にあわせて`config.json`の設定を変更しましょう。以下は具体例です。
 
 ```json
 {
-  "templater": {
-    "templateFolderLocation": "Templaterのtemplate folder locationで指定したパスに一致する絶対パス",
-    "scriptFilesFolderLocation": "Templaterのscript files folder locationで指定したパスに一致する絶対パス"
+  "scriptFilesFolderLocation": "/home/tadashi-aikawa/vaults/minerva/templater/scripts",
+  "deployMap": {
+    "common": "/home/tadashi-aikawa/vaults/minerva/templater",
+    "home": "/home/tadashi-aikawa/vaults/minerva/templater",
   }
 }
 ```
+
+`deployMap`の`common`と`home`が同じ設定値になっていますが、これはどちらの成果物も同じディレクトリ内部に転送されることを意味します。Obsidian Tempuraはファイル同期はしないため、`deployMap`の値に指定されたディレクトリのファイルが削除されることはありません。(ただし、同名ファイルは上書きされます)
 
 ### ビルド
 
-以下のコマンドでビルドできます。
+以下のコマンドを実行すると、tsファイルに変更があった場合に自動でビルドして転送します。
 
 ```console
-npx tempura build
+npx tempura
 ```
-
-ビルドを実行すると、まずは`fryTempura.js`スクリプトが`templater.scriptFilesFolderLocation`で指定したディレクトリ配下に転送されます。その後、src配下のtsファイルをTemplater script(mdファイル)に変換し、`templater.templateFolderLocation`で指定したディレクトリ内に転送します。
-
-#### watchコマンド
-
-watchコマンドでは、変更があったtsファイルのみを転送できます。
-
-```console
-npx tempura watch
-```
-
-watchコマンドの差分転送では`fryTempura.js`の転送は行いません。ただし、watchコマンド起動時には前処理としてビルド処理が実行されますので、結果的に`fryTempura.js`とすべてのtsファイルを変換したmdファイルは転送されます。
 
 ## For developers
 

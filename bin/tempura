@@ -2,6 +2,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const { exit } = require("process");
 const execSync = require("child_process").execSync;
 
 const root = path.resolve(__dirname, "../");
@@ -9,14 +10,10 @@ const root = path.resolve(__dirname, "../");
 function showHelp() {
   console.log(
     `
-[build]
-tempura 
-tempura build
-
-[watch]
-tampura watch
-tampura --watch
-tampura -w
+[dev]
+tempura
+tampura dev
+tampura --dev
 
 [init]
 tampura init
@@ -52,8 +49,8 @@ function init() {
   console.log("Set type=module");
 }
 
-function build() {
-  const hotCommand = `node ${root}/dev.mjs`;
+function deployScript(scriptPath) {
+  const hotCommand = `node ${root}/dev.mjs deploy "${scriptPath}"`;
   try {
     execSync(hotCommand, { stdio: "inherit" });
   } catch (error) {
@@ -61,39 +58,65 @@ function build() {
   }
 }
 
-function watch() {
-  build();
+function loadConfig() {
+  config = JSON.parse(fs.readFileSync("./config.json", { encoding: "utf8" }));
+  if (!config?.scriptFilesFolderLocation) {
+    throw new Error(
+      "The `scriptFilesFolderLocation` key in the `config.json` is required."
+    );
+  }
+  if (!config?.deployMap) {
+    throw new Error("The `deployMap` key in the `config.json` is required.");
+  }
+  return config;
+}
+
+function dev() {
+  let config;
+  try {
+    config = loadConfig();
+  } catch (e) {
+    console.error(e);
+    exit(1);
+  }
+
+  deployScript(config.scriptFilesFolderLocation);
 
   const chokidar = require("chokidar");
+  Object.entries(config.deployMap).forEach(([src, dist]) => {
+    fs.mkdirSync(dist, { recursive: true });
 
-  const watcher = chokidar.watch("src", {
-    persistent: true,
-    ignoreInitial: true,
+    const watcher = chokidar.watch(src, {
+      persistent: true,
+    });
+
+    const handler = (target) => {
+      const distFile = target.replace(src, dist).replace(/.ts$/, ".md");
+
+      const hotCommand = `node ${root}/dev.mjs build "${target}" "${distFile}"`;
+      console.log(`👺 File ${target} has been changed.`);
+      console.log(`  📜 Running "${hotCommand}"...`);
+      try {
+        execSync(hotCommand, { stdio: "inherit" });
+        console.log(`  ✨ success build 📁${dist}`);
+      } catch (error) {
+        console.error(`  ❌ Failed to execute "${hotCommand}":`, error);
+      }
+    };
+
+    watcher.on("add", handler);
+    watcher.on("change", handler);
   });
 
-  watcher.on("change", (path) => {
-    const hotCommand = `node ${root}/dev.mjs "${path}"`;
-    console.log(`File ${path} has been changed. Running "${hotCommand}"...`);
-    try {
-      execSync(hotCommand, { stdio: "inherit" });
-    } catch (error) {
-      console.error(`Failed to execute "${hotCommand}":`, error);
-    }
-  });
-
-  console.log("Watching files for changes...");
+  console.log("👀 Watching files for changes...");
 }
 
 const [command] = process.argv.slice(2);
 switch (command) {
-  case "build":
   case undefined:
-    build();
-    break;
-  case "watch":
-  case "--watch":
-  case "-w":
-    watch();
+  case "dev":
+  case "--dev":
+    dev();
     break;
   case "init":
   case "--init":

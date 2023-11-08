@@ -1,6 +1,6 @@
 {
-  "templater": {
-    "templateFolderLocation": "templates",
-    "scriptFilesFolderLocation": "script"
+  "scriptFilesFolderLocation": "script",
+  "deployMap": {
+    "src": "templates"
   }
 }

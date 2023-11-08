@@ -1,5 +1,5 @@
 import * as fs from "fs";
-import { join, resolve } from "path";
+import { resolve } from "path";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 
@@ -14,44 +14,26 @@ function build(target, dist) {
       line.startsWith("///") ? line.replace(/\/\/\/\s*/, "") : line
     )
     .join("\n");
-  fs.mkdirSync(dist, { recursive: true });
-  const dst = `${dist}/${target.replace(/^src/, "/").replace(/.ts$/, ".md")}`;
-  fs.writeFileSync(dst, transformed);
-  console.log(`[success build] ${dst}`);
+
+  fs.writeFileSync(dist, transformed);
 }
 
-function main(path) {
-  try {
-    const config = JSON.parse(
-      fs.readFileSync("./config.json", { encoding: "utf8" })
-    );
-    if (!config?.templater?.templateFolderLocation) {
-      console.error(
-        "The `templater.templateFolderLocation` key in the `config.json` is required."
-      );
-      return;
-    }
-    if (!config?.templater?.scriptFilesFolderLocation) {
-      console.error(
-        "The `templater.scriptFilesFolderLocation` key in the `config.json` is required."
-      );
-      return;
-    }
-
-    const root = __dirname;
-    fs.cpSync(
-      resolve(root, "lib", "fryTempura.js"),
-      resolve(config.templater.scriptFilesFolderLocation, "fryTempura.js")
-    );
-
-    (path ? [path] : fs.readdirSync("src").map((x) => join("src", x))).forEach(
-      (x) => build(x, config.templater.templateFolderLocation)
-    );
-  } catch (e) {
-    console.error(e);
-    console.error("Failed to parse ./config.json.");
-  }
+function deploy(scriptPath) {
+  const root = __dirname;
+  fs.cpSync(
+    resolve(root, "lib", "fryTempura.js"),
+    resolve(scriptPath, "fryTempura.js")
+  );
 }
 
-const [path] = process.argv.slice(2);
-main(path);
+const [command, ...args] = process.argv.slice(2);
+switch (command) {
+  case "deploy":
+    const scriptPath = args[0];
+    deploy(scriptPath);
+    break;
+  case "build":
+    const [target, dist] = args;
+    build(target, dist);
+    break;
+}
