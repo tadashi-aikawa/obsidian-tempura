@@ -47,6 +47,18 @@ function init() {
 
   execSync("npm pkg set type=module");
   console.log("Set type=module");
+
+  fs.mkdirSync(".vscode");
+  console.log(`".vscode" directory is created.`);
+
+  fs.cpSync(
+    path.resolve(root, "assets/.vscode/settings.json"),
+    "./.vscode/settings.json"
+  );
+  console.log(`".vscode/settings.json" is created.`);
+
+  fs.cpSync(path.resolve(root, "assets/.editorconfig"), "./.editorconfig");
+  console.log(`".editorconfig" is created.`);
 }
 
 function deployScript(scriptPath) {
