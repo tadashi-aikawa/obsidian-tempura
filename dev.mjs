@@ -8,14 +8,17 @@ const __dirname = dirname(__filename);
 
 function build(target, dist) {
   const ts = fs.readFileSync(target, { encoding: "utf8" });
-  const transformed = ts
+  let transformedLines = ts
     .split("\n")
     .map((line) =>
       line.startsWith("///") ? line.replace(/\/\/\/\s*/, "") : line
-    )
-    .join("\n");
+    );
+  if (transformedLines.at(-1) === "") {
+    // 最後の空行はフォーマッターによってつけられたものも多いので削除
+    transformedLines.pop();
+  }
 
-  fs.writeFileSync(dist, transformed);
+  fs.writeFileSync(dist, transformedLines.join("\n"));
 }
 
 function deploy(scriptPath) {
