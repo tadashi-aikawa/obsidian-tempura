@@ -32,6 +32,7 @@ import {
   copyToClipboard,
   createObsidianPublishUrl,
   fileExists,
+  createFile,
 } from "./functions";
 
 module.exports = () => ({
@@ -68,4 +69,5 @@ module.exports = () => ({
   copyToClipboard,
   createObsidianPublishUrl,
   fileExists,
+  createFile,
 });

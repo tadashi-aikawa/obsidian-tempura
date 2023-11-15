@@ -210,3 +210,7 @@ export async function getObsidianPublishHost(): Promise<string> {
     .apiCustomUrl()
     .then((x: any) => x.url);
 }
+
+export function createFile(path: string, data: string = ""): Promise<TFile> {
+  return app.vault.create(path, data);
+}

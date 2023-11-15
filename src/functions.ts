@@ -592,6 +592,17 @@ export function fileExists(path: string): Promise<boolean> {
 }
 
 /**
+ * ファイルを作成します
+ *
+ * ```ts
+ * await createFile("Notes/mimizou.md", "みみぞうとはフクロウのぬいぐるみです")
+ * ```
+ */
+export async function createFile(path: string, text?: string): Promise<TFile> {
+  return helper.createFile(path, text);
+}
+
+/**
  * クリップボードにテキストをコピーします
  *
  * ```ts
