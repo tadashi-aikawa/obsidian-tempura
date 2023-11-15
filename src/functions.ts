@@ -603,6 +603,23 @@ export async function createFile(path: string, text?: string): Promise<TFile> {
 }
 
 /**
+ * ファイルを開きます
+ *
+ * ```ts
+ * // 現在のLeafで開く
+ * await openFile("Notes/hoge.md")
+ * // 新しいLeafで開く
+ * await openFile("Notes/hoge.md", {newLeaf})
+ * ```
+ */
+export async function openFile(
+  path: string,
+  option?: { newLeaf: boolean }
+): Promise<void> {
+  return helper.openFile(path, option);
+}
+
+/**
  * クリップボードにテキストをコピーします
  *
  * ```ts

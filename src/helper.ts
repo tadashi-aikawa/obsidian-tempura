@@ -214,3 +214,11 @@ export async function getObsidianPublishHost(): Promise<string> {
 export function createFile(path: string, data: string = ""): Promise<TFile> {
   return app.vault.create(path, data);
 }
+
+export function openFile(
+  path: string,
+  option?: { newLeaf: boolean }
+): Promise<void> {
+  const newLeaf = option?.newLeaf ?? false;
+  return app.workspace.openLinkText("", path, newLeaf);
+}

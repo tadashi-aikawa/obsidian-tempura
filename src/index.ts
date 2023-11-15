@@ -33,6 +33,7 @@ import {
   createObsidianPublishUrl,
   fileExists,
   createFile,
+  openFile,
 } from "./functions";
 
 module.exports = () => ({
@@ -70,4 +71,5 @@ module.exports = () => ({
   createObsidianPublishUrl,
   fileExists,
   createFile,
+  openFile,
 });
