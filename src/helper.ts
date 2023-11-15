@@ -30,6 +30,10 @@ const toEditorPosition = (loc: Omit<Loc, "offset">): EditorPosition => ({
   line: loc.line,
 });
 
+export function exists(path: string): Promise<boolean> {
+  return app.vault.adapter.exists(path);
+}
+
 export const getActiveFile = (): TFile | null => app.workspace.getActiveFile();
 
 export function getActiveFileCache(): CachedMetadata | null {

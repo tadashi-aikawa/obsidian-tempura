@@ -31,6 +31,7 @@ import {
   getActiveFilePath,
   copyToClipboard,
   createObsidianPublishUrl,
+  fileExists,
 } from "./functions";
 
 module.exports = () => ({
@@ -66,4 +67,5 @@ module.exports = () => ({
   getActiveFilePath,
   copyToClipboard,
   createObsidianPublishUrl,
+  fileExists,
 });

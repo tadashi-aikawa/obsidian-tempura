@@ -580,6 +580,18 @@ export function getActiveFilePath(): string | null {
 }
 
 /**
+ * ファイルが存在するかを確認します
+ *
+ * ```ts
+ * await fileExists("Notes/hoge.md")
+ * // true
+ * ```
+ */
+export function fileExists(path: string): Promise<boolean> {
+  return helper.exists(path);
+}
+
+/**
  * クリップボードにテキストをコピーします
  *
  * ```ts
