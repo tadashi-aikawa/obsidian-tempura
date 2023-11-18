@@ -121,7 +121,20 @@ npm update obsidian-tempura && npm install obsidian-tempura
 npx tempura
 ```
 
-## For developers
+### TODO: 特殊な仕様
+
+- [ ] `///`
+- [ ] `exit`
+
+## ベータ版への道
+
+- [ ] 既存Templater Scriptsを移行しながら不足しているfunctionsを補っていく
+- [ ] tsファイルに型を記載できるようにする
+    - [ ] noImplicitAnyのオプションを削除
+- [ ] functionsのインターフェース整理
+- [ ] docsの整理
+
+## 🤖 開発者むけ
 
 ### Required
 
