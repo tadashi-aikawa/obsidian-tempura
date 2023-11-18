@@ -22,6 +22,9 @@ tampura --init
   );
 }
 
+const INSTALL_DEPENDENCIES_COMMAND =
+  "npm install -D typescript@5.2 @tsconfig/node18 chokidar@3 @babel/core@7 @babel/plugin-transform-typescript@7 obsidian@^1.4.11";
+
 function init() {
   fs.mkdirSync("src");
   console.log(`"src" directory is created.`);
@@ -38,17 +41,25 @@ function init() {
   fs.cpSync(path.resolve(root, "assets/tsconfig.json"), "./tsconfig.json");
   console.log(`"tsconfig.json" is created.`);
 
-  console.log(`Installing "TypeScript"...`);
-  execSync(
-    "npm install -D typescript@5.2 @tsconfig/node18 chokidar@3 @babel/core@7 @babel/plugin-transform-typescript@7"
-  );
-  console.log(`Install dependencies`);
+  console.log(`Installing dependencies...`);
+  execSync(INSTALL_DEPENDENCIES_COMMAND);
 
   execSync("npm pkg set type=module");
   console.log("Set type=module");
 
   fs.cpSync(path.resolve(root, "assets/.editorconfig"), "./.editorconfig");
   console.log(`".editorconfig" is created.`);
+}
+
+function update() {
+  console.log(`Updating obsidian-tempura...`);
+  execSync("npm update obsidian-tempura && npm install obsidian-tempura");
+
+  fs.cpSync(path.resolve(root, "assets/tempura.d.ts"), "./tempura.d.ts");
+  console.log(`"tempura.d.ts" is updated.`);
+
+  console.log(`Installing dependencies...`);
+  execSync(INSTALL_DEPENDENCIES_COMMAND);
 }
 
 function deployScript(scriptPath) {
@@ -123,6 +134,10 @@ switch (command) {
   case "init":
   case "--init":
     init();
+    break;
+  case "update":
+  case "--update":
+    update();
     break;
   case "help":
   case "--help":

@@ -6,11 +6,11 @@
     "bun-types": "latest",
     "esbuild": "^0.19.5",
     "husky": "^8.0.3",
-    "obsidian": "^1.4.11",
     "typedoc": "^0.25.2"
   },
   "peerDependencies": {
     "typescript": "^5.0.0",
+    "obsidian": "^1.4.11",
     "chokidar": "^3.5.3",
     "@babel/core": "^7.23.3",
     "@babel/plugin-transform-typescript": "^7.23.3"

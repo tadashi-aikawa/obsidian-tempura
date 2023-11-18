@@ -77,14 +77,17 @@ npx tempura init
 
 #### アップデートしたいときは
 
+2023-11-19以後のものをバージョンアップする場合は以下のコマンドを実行します。
+
 ```console
-npm update obsidian-tempura && npm install obsidian-tempura
+npx tempura update
 ```
 
-2023-11-19以前のものをバージョンする場合は、以下の再インストールが必要になるかもしれません。エラーが出たらお試しください。
+2023-11-19以前のものをバージョンする場合は、updateコマンドがないため以下の手順が必要です。
 
 ```console
-npm install -D typescript@5.2 @tsconfig/node18 chokidar@3 @babel/core@7 @babel/plugin-transform-typescript@7
+npm update obsidian-tempura && npm install obsidian-tempura
+npm install -D typescript@5.2 @tsconfig/node18 chokidar@3 @babel/core@7 @babel/plugin-transform-typescript@7 obsidian@^1.4.11
 ```
 
 ### 設定
