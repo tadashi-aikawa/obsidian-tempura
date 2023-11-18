@@ -40,7 +40,7 @@ https://raw.githubusercontent.com/tadashi-aikawa/obsidian-tempura/main/lib/fryTe
 
 ### 使い方
 
-`tp.user.fryTempura()`からObsidian Tempuraの関数群を利用できます。
+`tp.user.fryTempura()`からObsidian Tempuraの関数群を利用できます。`const T = tp.user.fryTempura()` で宣言したTを利用してください。
 
 ```js
 <%*
@@ -50,15 +50,8 @@ T.insert("🦉Mimizou")
 %>
 ```
 
-OR
-
-```js
-<%*
-const { insert } = tp.user.fryTempura()
-
-insert("🦉Mimizou")
-%>
-```
+> **Warning**
+> 上記以外の書き方をすると、TypeScriptとしては問題なくても、tsファイルからmdファイルへの変換で動かなくなる可能性があります。
 
 利用できる関数の定義は[API Documentation]をご覧ください。
 

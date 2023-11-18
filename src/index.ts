@@ -38,6 +38,7 @@ import {
   createMomentDate,
   getAllFiles,
   getAllFilesByPath,
+  exit,
 } from "./functions";
 
 module.exports = () => ({
@@ -80,4 +81,5 @@ module.exports = () => ({
   createMomentDate,
   getAllFiles,
   getAllFilesByPath,
+  exit,
 });

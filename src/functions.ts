@@ -692,3 +692,17 @@ export async function createObsidianPublishUrl(path: string): Promise<string> {
   const host = await helper.getObsidianPublishHost();
   return `https://${host}/${encodeURI(path.replace(".md", ""))}`;
 }
+
+/**
+ * エラーメッセージを通知して終了させます。この処理はthrowと一緒に使ってください
+ * このコードはmdファイルにコンパイルする過程で、T.notifyとreturn文に変換されます
+ *
+ * ```ts
+ * if (!file) {
+ *   throw exit("ファイルが取得できませんでした")
+ * }
+ * ```
+ */
+export function exit(message: string): Error {
+  return new Error(message);
+}

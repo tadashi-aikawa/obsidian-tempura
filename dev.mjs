@@ -8,11 +8,14 @@ const __dirname = dirname(__filename);
 
 function build(target, dist) {
   const ts = fs.readFileSync(target, { encoding: "utf8" });
-  let transformedLines = ts
-    .split("\n")
-    .map((line) =>
-      line.startsWith("///") ? line.replace(/\/\/\/\s*/, "") : line
-    );
+  let transformedLines = ts.split("\n").map((line) => {
+    const afterLine = line.startsWith("///")
+      ? line.replace(/\/\/\/\s*/, "")
+      : line;
+    const message = afterLine.match(/throw .+exit\((?<message>[^)]+)\)/)?.groups
+      ?.message;
+    return message ? `  T.notify(${message}); return` : afterLine;
+  });
   if (transformedLines.at(-1) === "") {
     // 最後の空行はフォーマッターによってつけられたものも多いので削除
     transformedLines.pop();
