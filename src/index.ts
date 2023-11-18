@@ -34,6 +34,7 @@ import {
   fileExists,
   createFile,
   openFile,
+  getProperties,
 } from "./functions";
 
 module.exports = () => ({
@@ -72,4 +73,5 @@ module.exports = () => ({
   fileExists,
   createFile,
   openFile,
+  getProperties,
 });

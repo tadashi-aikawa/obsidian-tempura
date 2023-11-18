@@ -69,9 +69,21 @@ export function addProperties(properties: {
 }
 
 /**
- * 現在ファイルのプロパティを更新します
+ * 現在ファイルのプロパティを取得します
  *
  * ```ts
+ * getProperties().description
+ * // 説明文
+ * ```
+ */
+export function getProperties(): { [key: string]: any | any[] } | null {
+  return helper.getActiveFileFrontmatter();
+}
+
+/**
+ * 現在ファイルのプロパティを更新します
+ *
+ * /```ts
  * updateProperty("id", 200)
  * ```
  */
