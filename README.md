@@ -75,6 +75,12 @@ npm install https://github.com/tadashi-aikawa/obsidian-tempura.git
 npx tempura init
 ```
 
+#### アップデートしたいときは
+
+```console
+npm update obsidian-tempura && npm install obsidian-tempura
+```
+
 ### 設定
 
 `tempura init`で作成される`config.json`は以下です。
