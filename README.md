@@ -127,16 +127,80 @@ npm install -D typescript@5.2 @tsconfig/node18 chokidar@3 @babel/core@7 @babel/p
 npx tempura
 ```
 
-### TODO: 特殊な仕様の説明
+#### トリプルスラッシュの扱い
 
-- [ ] `///`
-- [ ] `exit`
+トリプルスラッシュ (`///`) でコメントアウトされたコードは、そのままコメント解除されます。たとえば、以下のコードをtsファイルとして書いた場合
+
+```typescript
+///<%*
+// begin
+const T = tp.user.fryTempura();
+T.notify("hoge")
+// end
+///%>
+```
+
+以下のようにビルドされます。
+
+```javascript
+<%*
+// begin
+const T = tp.user.fryTempura();
+T.notify("hoge")
+// end
+%>
+```
+
+これは[Templater tags]を指定するユースケースでの利用を想定しています。
+
+
+#### 例外処理の書き方
+
+例外処理の書き方は少し特殊であり、マクロのようなルールがあります。処理の中断が必要な例外を発生させるには、以下のように`T.exit()`の値をthrowしてください。
+
+```typescript
+const T = tp.user.fryTempura(); // Tにバインドする定義も必須です
+throw T.exit("プロパティが存在しません");
+```
+
+このコードはビルド時に以下のように変換されます。
+
+```javascript
+T.notify("プロパティが存在しません"); return
+```
+
+もう少し実用的なサンプルコードは以下です。
+
+```typescript
+///<%*
+const T = tp.user.fryTempura();
+const props = T.getProperties();
+if (!props) {
+  throw T.exit("プロパティが存在しません");
+}
+
+T.notify(JSON.stringify(props));
+///%>
+```
+
+これは以下のmdファイルに変換されます。
+
+```javascript
+<%*
+const T = tp.user.fryTempura();
+const props = T.getProperties();
+if (!props) {
+  T.notify("プロパティが存在しません"); return
+}
+T.notify(JSON.stringify(props));
+%>
+```
 
 ## ベータ版への道
 
-- [ ] 既存Templater Scriptsを移行しながら不足しているfunctionsを補っていく
 - [x] tsファイルに型を記載できるようにする
-    - [ ] noImplicitAnyのオプションを削除
+    - [x] noImplicitAnyのオプションを削除
+- [ ] 既存Templater Scriptsを移行しながら不足しているfunctionsを補っていく
 - [ ] functionsのインターフェース整理
 - [ ] docsの整理
 
@@ -176,6 +240,7 @@ bun run build:docs
 [Obsidian]: https://obsidian.md/
 [Templater]: https://github.com/SilentVoid13/Templater
 [Script User Functions]: https://silentvoid13.github.io/Templater/user-functions/script-user-functions.html
+[Templater tags]: https://silentvoid13.github.io/Templater/commands/overview.html
 [Bun]: https://bun.sh/
 
 [release page]: https://github.com/tadashi-aikawa/obsidian-tempura/releases
