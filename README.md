@@ -149,7 +149,7 @@ bun install
 ### Build
 
 ```console
-bun build
+bun run build
 ```
 
 #### Artifacts
@@ -159,7 +159,7 @@ bun build
 ### Build docs
 
 ```console
-bun build:docs
+bun run build:docs
 ```
 
 #### Artifacts
