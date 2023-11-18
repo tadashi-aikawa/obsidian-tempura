@@ -5,7 +5,7 @@ import {
   Vault,
   Workspace,
   FileView,
-  TFile as _TFile,
+  TFile,
   LinkCache,
   ReferenceCache,
   CacheItem,
@@ -33,7 +33,6 @@ export type UMetadataEditor = {
   insertProperties(props: Properties): void;
 };
 
-export type TFile = _TFile;
 export type UEditor = Editor;
 export type UFileView = FileView;
 export type UMarkdownView = MarkdownView;
