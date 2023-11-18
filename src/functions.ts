@@ -495,6 +495,20 @@ export function now(
 }
 
 /**
+ * momentの日時を生成します
+ *
+ * ```ts
+ * createMomentDate("2023-11-18")
+ * createMomentDate(1700294267)
+ * ```
+ */
+export function createMomentDate(
+  value: string | number
+): string | number | Moment {
+  return helper.createMoment(value);
+}
+
+/**
  * 入力ダイアログを表示します
  *
  * ```ts
