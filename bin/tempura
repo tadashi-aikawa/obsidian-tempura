@@ -26,11 +26,8 @@ function init() {
   fs.mkdirSync("src");
   console.log(`"src" directory is created.`);
 
-  fs.cpSync(
-    path.resolve(root, "assets/insert_mimizou.ts"),
-    "./src/insert_mimizou.ts"
-  );
-  console.log(`"src/insert_mimizou.ts" is created.`);
+  fs.cpSync(path.resolve(root, "assets/test.ts"), "./src/test.ts");
+  console.log(`"src/test.ts" is created.`);
 
   fs.cpSync(path.resolve(root, "assets/config.json"), "./config.json");
   console.log(`"config.json" is created.`);
