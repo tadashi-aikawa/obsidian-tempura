@@ -28,6 +28,10 @@ function build(target, dist) {
     // 最後の空行はフォーマッターによってつけられたものも多いので削除
     transformedLines.pop();
   }
+  if (transformedLines.at(-1) === "export {};") {
+    // 最後の`export {};`はimportが存在する場合にモジュールであることを明示するためにつけられるので削除
+    transformedLines.pop();
+  }
 
   fs.writeFileSync(dist, transformedLines.join("\n"));
 }

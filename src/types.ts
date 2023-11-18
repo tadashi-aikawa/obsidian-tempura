@@ -33,6 +33,7 @@ export type UMetadataEditor = {
   insertProperties(props: Properties): void;
 };
 
+export type TFile = TFile;
 export type UEditor = Editor;
 export type UFileView = FileView;
 export type UMarkdownView = MarkdownView;
