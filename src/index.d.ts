@@ -8,7 +8,8 @@ export type {
   UEditor,
   FrontMatterLinkCache,
   UMetadataEditor,
-  TFile,
   Moment,
   MomentInput,
 } from "./types";
+
+export type { TFile } from "obsidian";
