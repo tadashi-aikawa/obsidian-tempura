@@ -42,12 +42,7 @@ export function use(): {
  * ```
  */
 export function addProperty(key: string, value: any | any[]): void {
-  const editor = helper.getActiveMetadataEditor();
-  if (!editor) {
-    return;
-  }
-
-  editor.insertProperties({ [key]: value });
+  helper.getActiveMetadataEditor().insertProperties({ [key]: value });
 }
 
 /**
@@ -60,12 +55,7 @@ export function addProperty(key: string, value: any | any[]): void {
 export function addProperties(properties: {
   [key: string]: any | any[];
 }): void {
-  const editor = helper.getActiveMetadataEditor();
-  if (!editor) {
-    return;
-  }
-
-  editor.insertProperties(properties);
+  helper.getActiveMetadataEditor().insertProperties(properties);
 }
 
 /**
@@ -100,12 +90,7 @@ export function updateProperty(key: string, value: any | any[]): void {
  * ```
  */
 export function removeProperty(key: string): void {
-  const editor = helper.getActiveMetadataEditor();
-  if (!editor) {
-    return;
-  }
-
-  editor.insertProperties({ [key]: null });
+  helper.getActiveMetadataEditor().insertProperties({ [key]: null });
 }
 
 /**
@@ -140,12 +125,7 @@ export function readAliasesFromProperty(): string[] {
  * ```
  */
 export function focusPropertyValue(key: string): void {
-  const editor = helper.getActiveMetadataEditor();
-  if (!editor) {
-    return;
-  }
-
-  editor.focusValue(key);
+  helper.getActiveMetadataEditor().focusValue(key);
 }
 
 /**
@@ -157,10 +137,6 @@ export function focusPropertyValue(key: string): void {
  */
 export async function insert(text: string): Promise<void> {
   const editor = helper.getActiveEditor();
-  if (!editor) {
-    return;
-  }
-
   editor.replaceRange(text, editor.getCursor());
 }
 
@@ -172,7 +148,7 @@ export async function insert(text: string): Promise<void> {
  * // active line contents
  * ```
  */
-export function getActiveLine(): string | null {
+export function getActiveLine(): string {
   return helper.getActiveLine();
 }
 
@@ -196,8 +172,7 @@ export function deleteActiveLine(): void {
  * ```
  */
 export function getActiveLineTags(): string[] {
-  const line = getActiveLine();
-  return line ? parseTags(line) : [];
+  return parseTags(getActiveLine());
 }
 
 /**
@@ -206,10 +181,12 @@ export function getActiveLineTags(): string[] {
  * ```ts
  * getSelectionLines()
  * // ["- one", "- two", "- three"]
+ * getSelectionLines() // 未選択のとき
+ * // [""]
  * ```
  */
-export function getSelectionLines(): string[] | null {
-  return helper.getActiveEditor()?.getSelection()?.split("\n") ?? null;
+export function getSelectionLines(): string[] | [""] {
+  return helper.getSelection().split("\n");
 }
 
 /**
@@ -235,8 +212,7 @@ export function setTextToSelection(text: string): void {
  * ```
  */
 export async function getCodeBlocks(): Promise<CodeBlock[]> {
-  const path = helper.getActiveFile()?.path;
-  return path ? getCodeBlocksFrom(path) : [];
+  return getCodeBlocksFrom(helper.getActiveFile().path);
 }
 
 /**
@@ -346,12 +322,7 @@ export function sortSelectionLines(option?: {
  * ```
  */
 export function stripDecorationFromSelection(): void {
-  const selection = helper.getSelection();
-  if (!selection) {
-    return;
-  }
-
-  const striped = stripDecoration(selection);
+  const striped = stripDecoration(helper.getSelection());
   helper.setSelection(striped);
 }
 
@@ -365,12 +336,7 @@ export function stripDecorationFromSelection(): void {
  * ```
  */
 export function stripLinksFromSelection(): void {
-  const selection = helper.getSelection();
-  if (!selection) {
-    return;
-  }
-
-  const striped = stripLinks(selection);
+  const striped = stripLinks(helper.getSelection());
   helper.setSelection(striped);
 }
 
@@ -421,12 +387,7 @@ export function getBacklinkPaths(): string[] {
 export function getCreationDate(
   format: string | "unixtime" | "moment"
 ): string | number | Moment | null {
-  const f = helper.getActiveFile();
-  if (!f) {
-    return null;
-  }
-
-  const time = f.stat.ctime;
+  const time = helper.getActiveFile().stat.ctime;
   switch (format) {
     case "unixtime":
       return time;
@@ -452,12 +413,7 @@ export function getCreationDate(
 export function getUpdateDate(
   format: string | "unixtime" | "moment"
 ): string | number | Moment | null {
-  const f = helper.getActiveFile();
-  if (!f) {
-    return null;
-  }
-
-  const time = f.stat.mtime;
+  const time = helper.getActiveFile().stat.mtime;
   switch (format) {
     case "unixtime":
       return time;
@@ -601,8 +557,8 @@ export function getActiveFileContent(position?: {
  * // "Notes/activeFile.md"
  * ```
  */
-export function getActiveFilePath(): string | null {
-  return helper.getActiveFile()?.path ?? null;
+export function getActiveFilePath(): string {
+  return helper.getActiveFile().path;
 }
 
 /**

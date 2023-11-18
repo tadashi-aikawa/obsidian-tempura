@@ -34,14 +34,10 @@ export function exists(path: string): Promise<boolean> {
   return app.vault.adapter.exists(path);
 }
 
-export const getActiveFile = (): TFile | null => app.workspace.getActiveFile();
+export const getActiveFile = (): TFile => app.workspace.getActiveFile()!;
 
 export function getActiveFileCache(): CachedMetadata | null {
-  const f = getActiveFile();
-  if (!f) {
-    return null;
-  }
-  return app.metadataCache.getFileCache(f);
+  return app.metadataCache.getFileCache(getActiveFile());
 }
 
 export function getFileMap(): { [path: string]: TFile } {
@@ -71,39 +67,25 @@ export const getActiveFileFrontmatter = (): FrontMatterCache | null =>
 export const getCodeBlockSectionsByPath = (path: string): SectionCache[] =>
   getFileCacheByPath(path)?.sections?.filter((x) => x.type === "code") ?? [];
 
-export const getActiveEditor = (): UEditor | null =>
-  app.workspace.activeEditor?.editor ?? null;
+export const getActiveEditor = (): UEditor =>
+  app.workspace.activeEditor?.editor!;
 
-export const getActiveMetadataEditor = (): UMetadataEditor | null =>
-  (app.workspace.activeEditor as any).metadataEditor ?? null;
+export const getActiveMetadataEditor = (): UMetadataEditor =>
+  (app.workspace.activeEditor as any).metadataEditor!;
 
-export function getActiveLine(): string | null {
+export function getActiveLine(): string {
   const editor = getActiveEditor();
-  if (!editor) {
-    return null;
-  }
-
   return editor.getLine(editor.getCursor().line);
 }
 
 export function getBacklinksByFilePathInActiveFile(): {
   [path: string]: ULinkCache[];
-} | null {
-  const f = getActiveFile();
-  if (!f) {
-    return null;
-  }
-
-  return app.metadataCache.getBacklinksForFile(f).data;
+} {
+  return app.metadataCache.getBacklinksForFile(getActiveFile()).data;
 }
 
-export function getSelection(): string | null {
-  const editor = getActiveEditor();
-  if (!editor) {
-    return null;
-  }
-
-  return editor.getSelection();
+export function getSelection(): string {
+  return getActiveEditor().getSelection();
 }
 
 export async function loadFileContent(
@@ -127,11 +109,8 @@ export async function loadFileContent(
 export function getActiveFileContent(position?: {
   start: Omit<Loc, "offset">;
   end: Omit<Loc, "offset">;
-}): string | null {
+}): string {
   const editor = getActiveEditor();
-  if (!editor) {
-    return null;
-  }
 
   if (!position) {
     return editor.getValue();
@@ -144,20 +123,11 @@ export function getActiveFileContent(position?: {
 }
 
 export function setSelection(text: string): void {
-  const editor = getActiveEditor();
-  if (!editor) {
-    return;
-  }
-
-  editor.replaceSelection(text);
+  getActiveEditor().replaceSelection(text);
 }
 
 export function deleteActiveLine(): void {
   const editor = getActiveEditor();
-  if (!editor) {
-    return;
-  }
-
   const cur = editor.getCursor();
   if (cur.line === editor.lastLine()) {
     editor.setLine(cur.line, "");
@@ -178,10 +148,6 @@ export function replaceStringInActiveLine(
   option?: { cursor?: "last" }
 ): void {
   const editor = getActiveEditor();
-  if (!editor) {
-    return;
-  }
-
   const { line, ch } = editor.getCursor();
   editor.setLine(line, str);
 
