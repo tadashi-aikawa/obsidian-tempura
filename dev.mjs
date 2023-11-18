@@ -2,20 +2,28 @@ import * as fs from "fs";
 import { resolve } from "path";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
+import { transformFileSync } from "@babel/core";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 function build(target, dist) {
-  const ts = fs.readFileSync(target, { encoding: "utf8" });
-  let transformedLines = ts.split("\n").map((line) => {
+  // TypeScriptファイルから型注釈をすべて除去
+  const jsCode = transformFileSync(target, {
+    plugins: ["@babel/plugin-transform-typescript"],
+  }).code;
+
+  let transformedLines = jsCode.split("\n").map((line) => {
+    // Templater Script固有の表記をtsファイルに記載するためトリプルバックスラッシュを使っていたので削除
     const afterLine = line.startsWith("///")
       ? line.replace(/\/\/\/\s*/, "")
       : line;
+    // 例外処理変換。 throw T.exit("...") を T.notify("...") と return にする
     const message = afterLine.match(/throw .+exit\((?<message>[^)]+)\)/)?.groups
       ?.message;
     return message ? `  T.notify(${message}); return` : afterLine;
   });
+
   if (transformedLines.at(-1) === "") {
     // 最後の空行はフォーマッターによってつけられたものも多いので削除
     transformedLines.pop();

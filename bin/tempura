@@ -39,8 +39,10 @@ function init() {
   console.log(`"tsconfig.json" is created.`);
 
   console.log(`Installing "TypeScript"...`);
-  execSync("npm install -D typescript@5.2 @tsconfig/node18");
-  console.log(`"TypeScript" is installed.`);
+  execSync(
+    "npm install -D typescript@5.2 @tsconfig/node18 chokidar@3 @babel/core@7 @babel/plugin-transform-typescript@7"
+  );
+  console.log(`Install dependencies`);
 
   execSync("npm pkg set type=module");
   console.log("Set type=module");

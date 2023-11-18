@@ -10,7 +10,10 @@
     "typedoc": "^0.25.2"
   },
   "peerDependencies": {
-    "typescript": "^5.0.0"
+    "typescript": "^5.0.0",
+    "chokidar": "^3.5.3",
+    "@babel/core": "^7.23.3",
+    "@babel/plugin-transform-typescript": "^7.23.3"
   },
   "bin": {
     "tempura": "./bin/tempura"
@@ -22,8 +25,5 @@
     "prepare": "husky install",
     "pre:push": "bun run build && git diff --quiet lib/fryTempura.js"
   },
-  "type": "commonjs",
-  "dependencies": {
-    "chokidar": "^3.5.3"
-  }
+  "type": "commonjs"
 }
