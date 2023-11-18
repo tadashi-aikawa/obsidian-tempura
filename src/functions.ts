@@ -1,7 +1,7 @@
-import { FrontMatterCache, Pos, TFile } from "obsidian";
+import { FrontMatterCache, TFile } from "obsidian";
 import { ExhaustiveError } from "./errors";
 import * as helper from "./helper";
-import { Moment, UEditor, UMetadataEditor } from "./types";
+import { CodeBlock, Moment, UEditor, UMetadataEditor } from "./types";
 import { orderBy } from "./utils/collections";
 import {
   parseMarkdownList,
@@ -11,12 +11,6 @@ import {
 } from "./utils/parser";
 import { getDatesInRange } from "./utils/dates";
 import { isPresent } from "./utils/types";
-
-interface CodeBlock {
-  language: string | null;
-  content: string;
-  position: Pos;
-}
 
 /**
  * 短い呼び出し表現でプロパティを呼び出せます
@@ -458,7 +452,9 @@ export function now(
  * createMomentDate(1700294267)
  * ```
  */
-export function createMomentDate(value: string | number): Moment {
+export function createMomentDate(
+  value: string | number
+): string | number | Moment {
   return helper.createMoment(value);
 }
 

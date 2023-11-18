@@ -10,6 +10,7 @@ export type {
   UMetadataEditor,
   Moment,
   MomentInput,
+  CodeBlock,
 } from "./types";
 
 export type { TFile } from "obsidian";

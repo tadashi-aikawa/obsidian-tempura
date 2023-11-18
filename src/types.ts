@@ -9,7 +9,14 @@ import {
   LinkCache,
   ReferenceCache,
   CacheItem,
+  Pos,
 } from "obsidian";
+
+export interface CodeBlock {
+  language: string | null;
+  content: string;
+  position: Pos;
+}
 
 type Properties = {
   tags?: string | string[] | undefined | null;
