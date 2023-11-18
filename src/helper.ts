@@ -44,6 +44,10 @@ export function getActiveFileCache(): CachedMetadata | null {
   return app.metadataCache.getFileCache(f);
 }
 
+export function getFileMap(): { [path: string]: TFile } {
+  return app.vault.fileMap;
+}
+
 export function getFileByPath(path: string): TFile | null {
   const abstractFile = app.vault.getAbstractFileByPath(path);
   if (!abstractFile) {

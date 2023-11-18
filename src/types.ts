@@ -38,6 +38,7 @@ export type UFileView = FileView;
 export type UMarkdownView = MarkdownView;
 
 export type UVault = Vault & {
+  fileMap: { [path: string]: TFile };
   config: {
     spellcheckDictionary?: string[];
     useMarkdownLinks?: false;

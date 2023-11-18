@@ -36,6 +36,8 @@ import {
   openFile,
   getProperties,
   createMomentDate,
+  getAllFiles,
+  getAllFilesByPath,
 } from "./functions";
 
 module.exports = () => ({
@@ -76,4 +78,6 @@ module.exports = () => ({
   openFile,
   getProperties,
   createMomentDate,
+  getAllFiles,
+  getAllFilesByPath,
 });

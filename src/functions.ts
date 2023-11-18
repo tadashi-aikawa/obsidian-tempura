@@ -629,6 +629,30 @@ export async function createFile(path: string, text?: string): Promise<TFile> {
 }
 
 /**
+ * Vault内の全ファイルをVault rootからの相対パスをキーとしたMapで取得します
+ *
+ * ```ts
+ * getAllFilesByPath()
+ * // { "Notes/hoge.md": TFile, "Notes/hoga.md": TFile, ... }
+ * ```
+ */
+export function getAllFilesByPath(): { [path: string]: TFile } {
+  return helper.getFileMap();
+}
+
+/**
+ * Vault内の全ファイルを取得します
+ *
+ * ```ts
+ * getAllFiles()
+ * // [TFile, TFile, ... , TFile]
+ * ```
+ */
+export function getAllFiles(): TFile[] {
+  return Object.values(getAllFilesByPath());
+}
+
+/**
  * ファイルを開きます
  *
  * ```ts
