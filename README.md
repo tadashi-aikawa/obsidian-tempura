@@ -81,6 +81,12 @@ npx tempura init
 npm update obsidian-tempura && npm install obsidian-tempura
 ```
 
+2023-11-19以前のものをバージョンする場合は、以下の再インストールが必要になるかもしれません。エラーが出たらお試しください。
+
+```console
+npm install -D typescript@5.2 @tsconfig/node18 chokidar@3 @babel/core@7 @babel/plugin-transform-typescript@7
+```
+
 ### 設定
 
 `tempura init`で作成される`config.json`は以下です。
@@ -121,7 +127,7 @@ npm update obsidian-tempura && npm install obsidian-tempura
 npx tempura
 ```
 
-### TODO: 特殊な仕様
+### TODO: 特殊な仕様の説明
 
 - [ ] `///`
 - [ ] `exit`
@@ -129,7 +135,7 @@ npx tempura
 ## ベータ版への道
 
 - [ ] 既存Templater Scriptsを移行しながら不足しているfunctionsを補っていく
-- [ ] tsファイルに型を記載できるようにする
+- [x] tsファイルに型を記載できるようにする
     - [ ] noImplicitAnyのオプションを削除
 - [ ] functionsのインターフェース整理
 - [ ] docsの整理
