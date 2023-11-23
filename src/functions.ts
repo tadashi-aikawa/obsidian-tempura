@@ -452,9 +452,7 @@ export function now(
  * createMomentDate(1700294267)
  * ```
  */
-export function createMomentDate(
-  value: string | number
-): string | number | Moment {
+export function createMomentDate(value: string | number): Moment {
   return helper.createMoment(value);
 }
 
