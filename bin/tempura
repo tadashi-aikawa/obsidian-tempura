@@ -10,14 +10,22 @@ const root = path.resolve(__dirname, "../");
 function showHelp() {
   console.log(
     `
-[dev]
+[Initialize tempura project]
+tampura init
+tampura --init
+
+[Build project]
 tempura
 tampura dev
 tampura --dev
 
-[init]
-tampura init
-tampura --init
+[Update self(tempura)]
+tampura update
+tampura --update
+
+[Show help]
+tempura help
+tempura --help
 `.trim()
   );
 }
