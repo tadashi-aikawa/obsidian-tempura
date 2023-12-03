@@ -158,6 +158,11 @@ export function replaceStringInActiveLine(
   editor.setCursor({ line, ch: afterCh });
 }
 
+export function appendLine(str: string): void {
+  const editor = getActiveEditor();
+  editor.replaceRange(`\n${str}`, { line: editor.lastLine() + 1, ch: 0 });
+}
+
 export function notify(text: string | DocumentFragment, timeoutMs?: number) {
   new Notice(text, timeoutMs ?? null);
 }

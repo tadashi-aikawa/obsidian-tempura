@@ -135,6 +135,17 @@ export function insert(text: string): void {
 }
 
 /**
+ * ファイルの最後に新しい行を追加してテキストを挿入します
+ *
+ * ```ts
+ * appendLine("hogehoge")
+ * ```
+ */
+export function appendLine(text: string): void {
+  helper.appendLine(text);
+}
+
+/**
  * 現在行のテキストを取得します
  *
  * ```ts

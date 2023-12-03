@@ -1,4 +1,5 @@
 import {
+  appendLine,
   insert,
   getActiveLine,
   attachTextToListItem,
@@ -44,6 +45,7 @@ import {
 
 module.exports = () => ({
   use,
+  appendLine,
   insert,
   addProperty,
   addProperties,
