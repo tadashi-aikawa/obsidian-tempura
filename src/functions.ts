@@ -126,10 +126,10 @@ export function focusPropertyValue(key: string): void {
  * カーソル位置にテキストを挿入します
  *
  * ```ts
- * await insert("hogehoge")
+ * insert("hogehoge")
  * ```
  */
-export async function insert(text: string): Promise<void> {
+export function insert(text: string): void {
   const editor = helper.getActiveEditor();
   editor.replaceRange(text, editor.getCursor());
 }
