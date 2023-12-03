@@ -40,6 +40,10 @@ export function getActiveFileCache(): CachedMetadata | null {
   return app.metadataCache.getFileCache(getActiveFile());
 }
 
+export function getMarkdownFiles(): TFile[] {
+  return app.vault.getMarkdownFiles();
+}
+
 export function getFileMap(): { [path: string]: TFile } {
   return app.vault.fileMap;
 }

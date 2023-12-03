@@ -628,6 +628,18 @@ export function getAllFiles(): TFile[] {
 }
 
 /**
+ * Vault内の全マークダウンファイルを取得します
+ *
+ * ```ts
+ * getAllMarkdownFiles()
+ * // [TFile, TFile, ... , TFile]
+ * ```
+ */
+export function getAllMarkdownFiles(): TFile[] {
+  return helper.getMarkdownFiles();
+}
+
+/**
  * ファイルを開きます
  *
  * ```ts
