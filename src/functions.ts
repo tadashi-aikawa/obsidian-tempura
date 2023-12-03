@@ -470,6 +470,22 @@ export function showInputDialog(message: string): Promise<string | null> {
 }
 
 /**
+ * 候補選択ダイアログを表示します
+ *
+ * ```ts
+ * await showSelectionDialog(["item1", "item2"], [item1, item2])
+ * // 選択した結果 or null (キャンセル時)
+ * ```
+ */
+export function showSelectionDialog<T>(
+  texts: string[],
+  items: T[]
+): Promise<T | null> {
+  const tp = helper.useTemplaterInternalFunction();
+  return tp.system.suggester(texts, items);
+}
+
+/**
  * 日付beginとendの間に存在するデイリーノートのファイルオブジェクトを取得します
  *
  * ```ts

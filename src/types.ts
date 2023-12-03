@@ -80,6 +80,7 @@ export type UApp = App & {
 export type UTemplater = {
   system: {
     // https://silentvoid13.github.io/Templater/internal-functions/internal-modules/system-module.html
+
     // null: if cancel
     prompt(
       promptText?: string,
@@ -87,5 +88,14 @@ export type UTemplater = {
       throwOnCancel?: boolean,
       multiline?: boolean
     ): Promise<string | null>;
+
+    // null: if cancel
+    suggester<T>(
+      text_items: string[] | ((item: T) => string),
+      items: T[],
+      throw_on_cancel?: boolean,
+      placeholder?: string,
+      limit?: number
+    ): Promise<T | null>;
   };
 };
