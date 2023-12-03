@@ -156,10 +156,51 @@ T.notify("hoge")
 
 これは[Templater tags]を指定するユースケースでの利用を想定しています。
 
+#### early returnの書き方
+
+early returnの書き方は少し特殊であり、マクロのようなルールがあります。early returnさせるには、以下のように引数なしで`T.exit()`の値をthrowしてください。
+
+```typescript
+const T = tp.user.fryTempura(); // Tにバインドする定義も必須です
+throw T.exit();
+```
+
+このコードはビルド時に以下のように変換されます。
+
+```javascript
+return
+```
+
+もう少し実用的なサンプルコードは以下です。
+
+```typescript
+///<%*
+const T = tp.user.fryTempura();
+const props = T.getProperties();
+if (!props) {
+  throw T.exit();
+}
+
+T.notify(JSON.stringify(props));
+///%>
+```
+
+これは以下のmdファイルに変換されます。
+
+```javascript
+<%*
+const T = tp.user.fryTempura();
+const props = T.getProperties();
+if (!props) {
+  return
+}
+T.notify(JSON.stringify(props));
+%>
+```
 
 #### 例外処理の書き方
 
-例外処理の書き方は少し特殊であり、マクロのようなルールがあります。処理の中断が必要な例外を発生させるには、以下のように`T.exit()`の値をthrowしてください。
+例外処理の書き方は少し特殊であり、マクロのようなルールがあります。処理の中断が必要な例外を発生させるには、以下のように引数ありで`T.exit()`の値をthrowしてください。
 
 ```typescript
 const T = tp.user.fryTempura(); // Tにバインドする定義も必須です

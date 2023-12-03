@@ -683,13 +683,20 @@ export async function createObsidianPublishUrl(path: string): Promise<string> {
 /**
  * エラーメッセージを通知して終了させます。この処理はthrowと一緒に使ってください
  * このコードはmdファイルにコンパイルする過程で、T.notifyとreturn文に変換されます
+ * messageを指定しない場合はreturn文に変換されます
  *
  * ```ts
  * if (!file) {
  *   throw exit("ファイルが取得できませんでした")
  * }
+ *
+ * if (!file) {
+ *   // 正常終了
+ *   throw exit()
+ * }
  * ```
  */
-export function exit(message: string): Error {
+export function exit(message?: string): Error {
+  // この実装はruntime時に実行されない想定です
   return new Error(message);
 }

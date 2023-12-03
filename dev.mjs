@@ -19,9 +19,14 @@ function build(target, dist) {
       ? line.replace(/\/\/\/\s*/, "")
       : line;
     // 例外処理変換。 throw T.exit("...") を T.notify("...") と return にする
-    const message = afterLine.match(/throw .+exit\((?<message>[^)]+)\)/)?.groups
+    // ただし、引数を省略した場合はreturnのみ
+    const message = afterLine.match(/throw .+exit\((?<message>[^)]*)\)/)?.groups
       ?.message;
-    return message ? `  T.notify(${message}); return` : afterLine;
+    return message == undefined
+      ? afterLine
+      : message === ""
+      ? `  return`
+      : `  T.notify(${message}); return`;
   });
 
   if (transformedLines.at(-1) === "") {
