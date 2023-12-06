@@ -2,7 +2,7 @@ import { FrontMatterCache, TFile } from "obsidian";
 import { ExhaustiveError } from "./errors";
 import * as helper from "./helper";
 import { CodeBlock, Moment, UEditor, UMetadataEditor } from "./types";
-import { orderBy } from "./utils/collections";
+import { orderBy, sorter as uSorter } from "./utils/collections";
 import {
   parseMarkdownList,
   parseTags,
@@ -699,4 +699,19 @@ export async function createObsidianPublishUrl(path: string): Promise<string> {
 export function exit(message?: string): Error {
   // この実装はruntime時に実行されない想定です
   return new Error(message);
+}
+
+/**
+ * Array.prototype.sort()の引数に指定するソート条件です。
+ *
+ * ```ts
+ * ["aa", "bbb", "c"].sort(sorter(x => x.length, "desc"))
+ * // ["bbb", "aa", "c"]
+ * ```
+ */
+export function sorter<T, U extends number | string>(
+  toOrdered: (t: T) => U,
+  order: "asc" | "desc" = "asc"
+) {
+  return uSorter(toOrdered, order);
 }
