@@ -3,6 +3,7 @@ import {
   EditorPosition,
   FrontMatterCache,
   Loc,
+  MetadataCache,
   SectionCache,
   TFile,
 } from "obsidian";
@@ -33,6 +34,10 @@ const toEditorPosition = (loc: Omit<Loc, "offset">): EditorPosition => ({
 
 export function getWorkspace(): UWorkspace {
   return app.workspace;
+}
+
+export function getMetadataCache(): MetadataCache {
+  return app.metadataCache;
 }
 
 export function exists(path: string): Promise<boolean> {

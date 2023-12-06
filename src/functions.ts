@@ -1,4 +1,4 @@
-import { FrontMatterCache, TFile, Workspace } from "obsidian";
+import { FrontMatterCache, MetadataCache, TFile, Workspace } from "obsidian";
 import { ExhaustiveError } from "./errors";
 import * as helper from "./helper";
 import {
@@ -23,12 +23,14 @@ import { isPresent } from "./utils/types";
  */
 export function use(): {
   workspace: UWorkspace;
+  metadataCache: MetadataCache;
   editor: UEditor | null;
   properties: FrontMatterCache | null;
   metadataEditor: UMetadataEditor | null;
 } {
   return {
     workspace: helper.getWorkspace(),
+    metadataCache: helper.getMetadataCache(),
     editor: helper.getActiveEditor(),
     properties: helper.getActiveFileFrontmatter(),
     metadataEditor: helper.getActiveMetadataEditor(),
