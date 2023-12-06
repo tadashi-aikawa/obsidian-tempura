@@ -65,6 +65,9 @@ export function getFileCacheByPath(path: string): CachedMetadata | null {
   return app.metadataCache.getFileCache(f);
 }
 
+export const getFrontmatterByPath = (path: string): FrontMatterCache | null =>
+  getFileCacheByPath(path)?.frontmatter ?? null;
+
 export const getActiveFileFrontmatter = (): FrontMatterCache | null =>
   getActiveFileCache()?.frontmatter ?? null;
 

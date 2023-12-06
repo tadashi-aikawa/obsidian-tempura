@@ -65,6 +65,20 @@ export function getProperties(): { [key: string]: any | any[] } | null {
 }
 
 /**
+ * パスで指定したファイルのプロパティを取得します
+ *
+ * ```ts
+ * getPropertiesFrom("Notes/sample-code.md").description
+ * // 説明文
+ * ```
+ */
+export function getPropertiesFrom(
+  path: string
+): { [key: string]: any | any[] } | null {
+  return helper.getFrontmatterByPath(path);
+}
+
+/**
  * 現在ファイルのプロパティを更新します
  *
  * /```ts
