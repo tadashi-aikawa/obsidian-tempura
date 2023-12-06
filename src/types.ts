@@ -53,7 +53,9 @@ export type UVault = Vault & {
   };
 };
 
-export type UWorkspace = Workspace;
+export type UWorkspace = Workspace & {
+  getActiveFileView(): UFileView;
+};
 
 export type UApp = App & {
   workspace: UWorkspace;

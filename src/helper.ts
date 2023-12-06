@@ -14,6 +14,7 @@ import {
   ULinkCache,
   UMetadataEditor,
   UTemplater,
+  UWorkspace,
 } from "./types";
 
 declare let app: UApp;
@@ -29,6 +30,10 @@ const toEditorPosition = (loc: Omit<Loc, "offset">): EditorPosition => ({
   ch: loc.col,
   line: loc.line,
 });
+
+export function getWorkspace(): UWorkspace {
+  return app.workspace;
+}
 
 export function exists(path: string): Promise<boolean> {
   return app.vault.adapter.exists(path);

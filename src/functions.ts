@@ -1,7 +1,13 @@
-import { FrontMatterCache, TFile } from "obsidian";
+import { FrontMatterCache, TFile, Workspace } from "obsidian";
 import { ExhaustiveError } from "./errors";
 import * as helper from "./helper";
-import { CodeBlock, Moment, UEditor, UMetadataEditor } from "./types";
+import {
+  CodeBlock,
+  Moment,
+  UEditor,
+  UMetadataEditor,
+  UWorkspace,
+} from "./types";
 import { orderBy, sorter as uSorter } from "./utils/collections";
 import {
   parseMarkdownList,
@@ -16,11 +22,13 @@ import { isPresent } from "./utils/types";
  * 短い呼び出し表現でプロパティを呼び出せます
  */
 export function use(): {
+  workspace: UWorkspace;
   editor: UEditor | null;
   properties: FrontMatterCache | null;
   metadataEditor: UMetadataEditor | null;
 } {
   return {
+    workspace: helper.getWorkspace(),
     editor: helper.getActiveEditor(),
     properties: helper.getActiveFileFrontmatter(),
     metadataEditor: helper.getActiveMetadataEditor(),
