@@ -739,3 +739,11 @@ export function sorter<T, U extends number | string>(
 ) {
   return uSorter(toOrdered, order);
 }
+
+/**
+ * エディタの1行の長さを切り替えます
+ * @returns 切り替えたあとの値
+ */
+export function toggleReadableLength(): boolean {
+  return helper.toggleEditorLength();
+}

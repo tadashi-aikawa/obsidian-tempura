@@ -42,6 +42,7 @@ import {
   sortSelectionLines,
   stripDecorationFromSelection,
   stripLinksFromSelection,
+  toggleReadableLength,
   updateProperty,
   use,
 } from "./functions";
@@ -90,6 +91,7 @@ module.exports = () => ({
   sortSelectionLines,
   stripDecorationFromSelection,
   stripLinksFromSelection,
+  toggleReadableLength,
   updateProperty,
   use,
 });

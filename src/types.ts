@@ -44,13 +44,17 @@ export type UEditor = Editor;
 export type UFileView = FileView;
 export type UMarkdownView = MarkdownView;
 
+type Config = {
+  spellcheckDictionary?: string[];
+  useMarkdownLinks?: boolean;
+  newLinkFormat?: "shortest" | "relative" | "absolute";
+  readableLineLength?: boolean;
+};
+
 export type UVault = Vault & {
   fileMap: { [path: string]: TFile };
-  config: {
-    spellcheckDictionary?: string[];
-    useMarkdownLinks?: false;
-    newLinkFormat?: "shortest" | "relative" | "absolute";
-  };
+  getConfig<K extends keyof Config>(key: K): Config[K];
+  setConfig<K extends keyof Config>(key: K, value: Config[K]): void;
 };
 
 export type UWorkspace = Workspace & {

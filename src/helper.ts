@@ -214,3 +214,10 @@ export function openFile(
   const newLeaf = option?.newLeaf ?? false;
   return app.workspace.openLinkText("", path, newLeaf);
 }
+
+export function toggleEditorLength() {
+  const current = app.vault.getConfig("readableLineLength") ?? false;
+  const next = !current;
+  app.vault.setConfig("readableLineLength", next);
+  return next;
+}
